@@ -1,6 +1,6 @@
 import Link from "next/link";
 import Image from "./Image";
-import Socket from "./Socket";
+// import Socket from "./Socket";
 import Notification from "./Notification";
 import { currentUser } from "@clerk/nextjs/server";
 import Logout from "./Logout";
@@ -119,18 +119,11 @@ const LeftBar = async () => {
       </div>
       {user && (
         <>
-          <Socket />
           {/* USER */}
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
               <div className="w-10 h-10 relative rounded-full overflow-hidden">
-                <Image
-                  src={user?.imageUrl}
-                  alt=""
-                  w={100}
-                  h={100}
-                  tr={true}
-                />
+                <Image src={user?.imageUrl} alt="" w={100} h={100} tr={true} />
               </div>
               <div className="hidden xxl:flex flex-col">
                 <span className="font-bold">{user?.username}</span>
@@ -139,7 +132,7 @@ const LeftBar = async () => {
             </div>
             {/* <div className="hidden xxl:block cursor-pointer font-bold">...</div> */}
             {/* ADD LOGOUT */}
-            <Logout/>
+            <Logout />
           </div>
         </>
       )}

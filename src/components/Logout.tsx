@@ -3,7 +3,7 @@
 import { useClerk } from "@clerk/nextjs";
 import Link from "next/link";
 import { useState } from "react";
-import Image from "./Image";
+// import Image from "./Image";
 
 const Logout = () => {
   const [open, setOpen] = useState(false);
