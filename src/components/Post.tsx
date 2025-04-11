@@ -1,4 +1,5 @@
-// import { imagekit } from "@/utils";
+/* eslint-disable @next/next/no-img-element */
+import { imagekit } from "@/utils";
 import Image from "./Image";
 import PostInfo from "./PostInfo";
 import PostInteractions from "./PostInteractions";
@@ -36,10 +37,10 @@ const Post = ({
   const originalPost = post.rePost || post;
 
   return (
-    <div className="p-4 border-y-[1px] border-borderGray">
+    <div className="p-4 border-y-[1px] border-white">
       {/* POST TYPE */}
       {post.rePostId && (
-        <div className="flex items-center gap-2 text-sm text-textGray mb-2 from-bold">
+        <div className="flex items-center gap-2 text-sm text-white mb-2 from-bold">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="18"
@@ -59,16 +60,13 @@ const Post = ({
         {/* AVATAR */}
 
         <div
-          className={`${
-            type === "status" && "hidden"
-          } relative w-10 h-10 rounded-full overflow-hidden -z-10`}
+          className={` relative w-10 h-10 rounded-full overflow-hidden -z-10`}
         >
-          <Image
-            path={originalPost.user.img || "general/noAvatar.png"}
-            alt=""
-            w={100}
-            h={100}
-            tr={true}
+          <img
+            src="/general/avatar.png"
+            alt="Avatar"
+            width={100}
+            height={100}
           />
         </div>
 
@@ -81,16 +79,13 @@ const Post = ({
               className="flex gap-4"
             >
               <div
-                className={`${
-                  type !== "status" && "hidden"
-                } relative w-10 h-10 rounded-full overflow-hidden`}
+                className={` relative w-10 h-10 rounded-full overflow-hidden`}
               >
-                <Image
-                  path={originalPost.user.img || "general/noAvatar.png"}
-                  alt=""
-                  w={100}
-                  h={100}
-                  tr={true}
+                <img
+                  src="/general/avatar.png"
+                  alt="Avatar"
+                  width={100}
+                  height={100}
                 />
               </div>
               <div
@@ -102,12 +97,12 @@ const Post = ({
                   {originalPost.user.displayName}
                 </h1>
                 <span
-                  className={`text-textGray ${type === "status" && "text-sm"}`}
+                  className={`text-white ${type === "status" && "text-sm"}`}
                 >
                   @{originalPost.user.username}
                 </span>
                 {type !== "status" && (
-                  <span className="text-textGray">
+                  <span className="text-white">
                     {format(originalPost.createdAt)}
                   </span>
                 )}
@@ -143,7 +138,7 @@ const Post = ({
             </div>
           )}
           {type === "status" && (
-            <span className="text-textGray">8:41 PM · Dec 5, 2024</span>
+            <span className="text-white">8:41 PM · Dec 5, 2024</span>
           )}
           <PostInteractions
             username={originalPost.user.username}

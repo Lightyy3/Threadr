@@ -6,6 +6,15 @@ import NextImage from "next/image";
 import ImageEditor from "./ImageEditor";
 import { useUser } from "@clerk/nextjs";
 import { addPost } from "@/action";
+import {
+  FaImage,
+  FaPoll,
+  FaRegSmile,
+  FaMapMarkerAlt,
+  FaClock,
+  FaRegGrinAlt,
+} from "react-icons/fa"; // React icons for the media buttons
+import { GiGuitar, GiVideoCamera } from "react-icons/gi"; // Additional icons
 
 const Share = () => {
   const [media, setMedia] = useState<File | null>(null);
@@ -74,7 +83,7 @@ const Share = () => {
           type="text"
           name="desc"
           placeholder="What is happening?!"
-          className="bg-transparent outline-none placeholder:text-textGray text-xl"
+          className="bg-transparent outline-none placeholder:text-white text-xl"
         />
         {/* PREVIEW IMAGE */}
         {media?.type.includes("image") && previewURL && (
@@ -126,7 +135,7 @@ const Share = () => {
           />
         )}
         <div className="flex items-center justify-between gap-4 flex-wrap">
-          <div className="flex gap-4 flex-wrap">
+          <div className="flex gap-4 flex-wrap border border-white p-2 rounded-full">
             <input
               type="file"
               name="file"
@@ -136,49 +145,13 @@ const Share = () => {
               accept="image/*,video/*"
             />
             <label htmlFor="file">
-              <Image
-                path="icons/image.svg"
-                alt=""
-                w={20}
-                h={20}
-                className="cursor-pointer"
-              />
+              <FaImage className="cursor-pointer text-white" size={20} />
             </label>
-            <Image
-              path="icons/gif.svg"
-              alt=""
-              w={20}
-              h={20}
-              className="cursor-pointer"
-            />
-            <Image
-              path="icons/poll.svg"
-              alt=""
-              w={20}
-              h={20}
-              className="cursor-pointer"
-            />
-            <Image
-              path="icons/emoji.svg"
-              alt=""
-              w={20}
-              h={20}
-              className="cursor-pointer"
-            />
-            <Image
-              path="icons/schedule.svg"
-              alt=""
-              w={20}
-              h={20}
-              className="cursor-pointer"
-            />
-            <Image
-              path="icons/location.svg"
-              alt=""
-              w={20}
-              h={20}
-              className="cursor-pointer"
-            />
+            {/* <GiGiphy className="cursor-pointer text-white" size={20} /> */}
+            <FaPoll className="cursor-pointer text-white" size={20} />
+            <FaRegSmile className="cursor-pointer text-white" size={20} />
+            <FaClock className="cursor-pointer text-white" size={20} />
+            <FaMapMarkerAlt className="cursor-pointer text-white" size={20} />
           </div>
           <button
             className="bg-white text-black font-bold rounded-full py-2 px-4 disabled:cursor-not-allowed"

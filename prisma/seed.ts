@@ -1,4 +1,4 @@
-import { PrismaClient } from '@prisma/client';
+import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
@@ -35,7 +35,7 @@ async function main() {
       posts.push(post);
     }
   }
-  console.log('Posts created.');
+  console.log("Posts created.");
 
   // Create some follows
   await prisma.follow.createMany({
@@ -47,7 +47,7 @@ async function main() {
       { followerId: users[3].id, followingId: users[0].id },
     ],
   });
-  console.log('Follows created.');
+  console.log("Follows created.");
 
   // Create some likes
   await prisma.like.createMany({
@@ -59,21 +59,23 @@ async function main() {
       { userId: users[4].id, postId: posts[4].id },
     ],
   });
-  console.log('Likes created.');
+  console.log("Likes created.");
 
   // Create some comments (each comment is a post linked to a parent post)
   const comments = [];
   for (let i = 0; i < posts.length; i++) {
     const comment = await prisma.post.create({
       data: {
-        desc: `Comment on Post ${posts[i].id} by ${users[(i + 1) % 5].username}`,
+        desc: `Comment on Post ${posts[i].id} by ${
+          users[(i + 1) % 5].username
+        }`,
         userId: users[(i + 1) % 5].id,
         parentPostId: posts[i].id, // Linking the comment to the post
       },
     });
     comments.push(comment);
   }
-  console.log('Comments created.');
+  console.log("Comments created.");
 
   // Create reposts using the Post model's rePostId
   const reposts = [];
@@ -87,7 +89,7 @@ async function main() {
     });
     reposts.push(repost);
   }
-  console.log('Reposts created.');
+  console.log("Reposts created.");
 
   // Create saved posts (users save posts they like)
   await prisma.savedPosts.createMany({
@@ -99,7 +101,7 @@ async function main() {
       { userId: users[4].id, postId: posts[0].id },
     ],
   });
-  console.log('Saved posts created.');
+  console.log("Saved posts created.");
 }
 
 main()

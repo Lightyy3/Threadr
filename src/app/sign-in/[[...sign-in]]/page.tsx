@@ -79,7 +79,7 @@ const SignInPage = () => {
             <SignIn.Strategy name="password">
               <Clerk.Field name="password" className="flex flex-col gap-2">
                 <Clerk.Input
-                  placeholder="password"
+                  placeholder="Password"
                   className="py-2 px-6 rounded-full text-black w-72 placeholder:text-sm"
                 />
                 <Clerk.FieldError className="text-red-300 text-sm" />
@@ -162,8 +162,10 @@ const SignInPage = () => {
             Create Account
           </Link>
           <p className="w-72 text-xs">
-            By signing up, you agree to the <span className="text-iconBlue">Terms of Service</span> and <span className="text-iconBlue">Privacy Policy</span>,
-            including <span className="text-iconBlue">Cookie Use</span>.
+            By signing up, you agree to the{" "}
+            <span className="text-iconBlue">Terms of Service</span> and{" "}
+            <span className="text-iconBlue">Privacy Policy</span>, including{" "}
+            <span className="text-iconBlue">Cookie Use</span>.
           </p>
         </SignIn.Root>
       </div>

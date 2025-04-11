@@ -1,4 +1,4 @@
-import ImageKit from "imagekit"
+import ImageKit from "imagekit";
 
 export const imagekit = new ImageKit({
   publicKey: process.env.NEXT_PUBLIC_PUBLIC_KEY!,

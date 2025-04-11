@@ -25,7 +25,7 @@ const Recommendations = async () => {
   });
 
   return (
-    <div className="p-4 rounded-2xl border-[1px] border-borderGray flex flex-col gap-4">
+    <div className="p-4 rounded-2xl border-[1px] border-white flex flex-col gap-4">
       {friendRecommendations.map((person) => (
         <div className="flex items-center justify-between" key={person.id}>
           {/* IMAGE AND USER INFO */}
@@ -39,19 +39,21 @@ const Recommendations = async () => {
                 tr={true}
               />
             </div>
-            <div className="">
-              <h1 className="text-md font-bold">{person.displayName || person.username}</h1>
+            <div>
+              <h1 className="text-md font-bold">
+                {person.displayName || person.username}
+              </h1>
               <span className="text-textGray text-sm">@{person.username}</span>
             </div>
           </div>
-          {/* BUTTON */}
+          {/* FOLLOW BUTTON */}
           <button className="py-1 px-4 font-semibold bg-white text-black rounded-full">
             Follow
           </button>
         </div>
       ))}
 
-      <Link href="/" className="text-iconBlue">
+      <Link href="/" className="text-white">
         Show More
       </Link>
     </div>

@@ -16,7 +16,7 @@ const Logout = () => {
         className="cursor-pointer font-bold"
         onClick={() => setOpen((prev) => !prev)}
       >
-        ...
+        Logout
       </div>
       {open && (
         <div className=" bg-white py-6 px-8 rounded-xl absolute left-4 bottom-4 flex flex-col gap-2 w-max">

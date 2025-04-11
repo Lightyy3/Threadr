@@ -49,7 +49,7 @@ export async function GET(request: NextRequest) {
     },
     take: LIMIT,
     skip: (Number(page) - 1) * LIMIT,
-    orderBy: { createdAt: "desc" }
+    orderBy: { createdAt: "desc" },
   });
 
   const totalPosts = await prisma.post.count({ where: whereCondition });
