@@ -49,13 +49,15 @@ const UserPage = async ({
   return (
     <div className="">
       {/* PROFILE TITLE */}
-      <div className="flex items-center gap-8 sticky top-0 backdrop-blur-md p-4 z-10 ">
-        <Link href="/">
+      <div className="flex items-center gap-4 sticky top-0 backdrop-blur-md p-4 z-10">
+        <Link href="/" className="flex items-center gap-2">
           {/* Using the IoIosArrowBack icon as the back button */}
           <IoIosArrowBack size={24} color="white" />
+          <p className="font-bold text-lg">Back</p>
         </Link>
-        <h1 className="font-bold text-lg">{user.displayName}</h1>
+        <h1 className="font-bold text-lg text-white">{user.displayName}</h1>
       </div>
+
       {/* INFO */}
       <div className="">
         {/* COVER & AVATAR CONTAINER */}
@@ -133,11 +135,11 @@ const UserPage = async ({
           <div className="flex gap-4">
             <div className="flex items-center gap-2">
               <span className="font-bold">{user._count.followers}</span>
-              <span className="text-white text-[15px]">Followers</span>
+              <span className="text-white text-[15px]">Followings</span>
             </div>
             <div className="flex items-center gap-2">
               <span className="font-bold">{user._count.followings}</span>
-              <span className="text-white text-[15px]">Followings</span>
+              <span className="text-white text-[15px]">Followers</span>
             </div>
           </div>
         </div>

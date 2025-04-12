@@ -18,7 +18,7 @@ export default function BoardLayout({
           {children}
           {modal}
         </div>
-        <div className="hidden lg:flex ml-4 md:ml-8 flex-1 ">
+        <div className="hidden lg:flex ml-4 md:ml-8 flex-1 mb-4 translate-y-[-30px]">
           <RightBar />
         </div>
       </div>

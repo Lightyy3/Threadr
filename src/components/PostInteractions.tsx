@@ -129,7 +129,7 @@ const PostInteractions = ({
           className="flex items-center gap-2 cursor-pointer group"
         >
           <FaComment
-            size={12}
+            size={14}
             className="fill-white group-hover:fill-iconBlue"
           />
           <span className="group-hover:text-iconBlue text-sm">
@@ -141,7 +141,7 @@ const PostInteractions = ({
         <form action={rePostAction}>
           <button className="flex items-center gap-2 cursor-pointer group">
             <FaRetweet
-              size={12}
+              size={14}
               className={`${
                 optimisticCount.isRePosted ? "fill-iconGreen" : "fill-white"
               } group-hover:fill-iconGreen`}
@@ -160,7 +160,7 @@ const PostInteractions = ({
         <form action={likeAction}>
           <button className="flex items-center gap-2 cursor-pointer group">
             <FaHeart
-              size={12}
+              size={14}
               className={`${
                 optimisticCount.isLiked ? "fill-iconPink" : "fill-white"
               } group-hover:fill-iconPink`}
@@ -180,18 +180,18 @@ const PostInteractions = ({
       <form action={saveAction} className="flex items-center gap-2">
         <button className="cursor-pointer group">
           <FaBookmark
-            size={12}
+            size={14}
             className={`${
               optimisticCount.isSaved ? "fill-iconBlue" : "fill-white"
             } group-hover:fill-iconBlue`}
           />
         </button>
-        <div className="cursor-pointer group">
+        {/* <div className="cursor-pointer group">
           <FaShareAlt
             size={12}
             className="fill-white group-hover:fill-iconBlue"
           />
-        </div>
+        </div> */}
       </form>
     </div>
   );

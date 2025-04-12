@@ -3,7 +3,8 @@ import { FaHashtag, FaInfoCircle } from "react-icons/fa";
 import { IoMdTrendingUp } from "react-icons/io";
 import { HiOutlineFire } from "react-icons/hi"; // Fire icon for trending
 import { HiArrowLongRight } from "react-icons/hi2"; // Modern arrow
-import Image from "./Image";
+// import Image from "./Image";
+import Image from "next/image";
 import { AiOutlineInfoCircle } from "react-icons/ai";
 import { FiInfo } from "react-icons/fi";
 
@@ -11,9 +12,9 @@ const PopularTags = () => {
   // Sample trending topics data - could be passed as props in a real implementation
   const trendingTopics = [
     {
-      category: "Sports",
-      title: "Nadal v Federer Grand Slam",
-      time: "Last Night",
+      category: "Technology",
+      title: "AI Revolution: The Future of Automation",
+      time: "Today",
       posts: null,
       isEvent: true,
     },
@@ -29,7 +30,7 @@ const PopularTags = () => {
     },
     {
       category: "Business",
-      title: "Tesla Stock",
+      title: "Nvda Stock",
       posts: "12K",
     },
     {
@@ -56,11 +57,10 @@ const PopularTags = () => {
               <div className="flex gap-4">
                 <div className="relative w-20 h-20 rounded-xl overflow-hidden  from-blue-50 to-indigo-100">
                   <Image
-                    path="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMjAgMTIwIj48cmVjdCB3aWR0aD0iMTIwIiBoZWlnaHQ9IjEyMCIgZmlsbD0iI2UwZTBlMCIvPjxyZWN0IHg9IjMwIiB5PSIyNSIgd2lkdGg9IjYwIiBoZWlnaHQ9IjYwIiByeD0iNSIgZmlsbD0iI2ZmZmZmZiIgc3Ryb2tlPSIjNDQ0NDQ0IiBzdHJva2Utd2lkdGg9IjIiLz48cmVjdCB4PSIzMCIgeT0iMjUiIHdpZHRoPSI2MCIgaGVpZ2h0PSIxNSIgcng9IjUiIHJ5PSI1IiBmaWxsPSIjZmY1NTU1Ii8+PGNpcmNsZSBjeD0iNDUiIGN5PSIyNSIgcj0iMyIgZmlsbD0iIzQ0NDQ0NCIvPjxjaXJjbGUgY3g9Ijc1IiBjeT0iMjUiIHI9IjMiIGZpbGw9IiM0NDQ0NDQiLz48bGluZSB4MT0iNDUiIHkxPSI1MCIgeDI9Ijc1IiB5Mj0iNTAiIHN0cm9rZT0iIzQ0NDQ0NCIgc3Ryb2tlLXdpZHRoPSIyIi8+PGxpbmUgeDE9IjQ1IiB5MT0iNjUiIHgyPSI3NSIgeTI9IjY1IiBzdHJva2U9IiM0NDQ0NDQiIHN0cm9rZS13aWR0aD0iMiIvPjx0ZXh0IHg9IjYwIiB5PSIxMDAiIGZvbnQtZmFtaWx5PSJBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxNCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iIzQ0NDQ0NCIgZm9udC13ZWlnaHQ9ImJvbGQiPkV2ZW50PC90ZXh0Pjwvc3ZnPg=="
-                    alt="event"
-                    w={120}
-                    h={120}
-                    tr={true}
+                    src="/assets/icons/ai.jpg" // Correct path
+                    alt="AI Image"
+                    width={120}
+                    height={180}
                   />
                 </div>
                 <div className="flex-1">

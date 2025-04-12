@@ -8,6 +8,7 @@ const RightBar = () => {
     <div className="bg-[#5A04FF] flex flex-col gap-4 sticky top-0 h-full max-h-screen pb-4">
       <Search />
       <PopularTags />
+
       <Recommendations />
       <div className="text-sm mb-4 items-center text-white flex flex-wrap gap-x-8 gap-y-4 justify-center sm:justify-start border border-white px-2 rounded-2xl relative">
         <Link href="/" className="hover:text-white transition-colors ml-2">
