@@ -105,7 +105,7 @@ const PopularTags = () => {
       {/* Show more link */}
       <Link
         href="/"
-        className="text-white border border-white px-2 rounded-full relative flex items-center gap-1 text-sm font-medium py-2 px-4 rounded-full self-start hover:text-black transition-colors mt-1"
+        className="text-white border border-white px-2  relative flex items-center gap-1 text-sm font-medium py-2 rounded-full self-start hover:text-black transition-colors mt-1"
       >
         <span>Show more</span>
         <HiArrowLongRight size={18} />

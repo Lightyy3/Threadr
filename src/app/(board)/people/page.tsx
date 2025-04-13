@@ -57,7 +57,7 @@ export default async function ProfilePage() {
                   <div className="w-20 h-20 rounded-full overflow-hidden border-4 border-[#1e1e1e] -mt-12">
                     {/* Avatar Image */}
                     <img
-                      src={user.img || "assets/icons/17.jpg"}
+                      src={user.img || "/assets/icons/17.jpg"}
                       alt="Avatar"
                       className="w-full h-full object-cover" // Ensures the image covers the circle
                     />

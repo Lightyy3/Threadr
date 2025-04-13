@@ -80,7 +80,7 @@ const Post = ({
             >
               <div className="relative w-10 h-10 rounded-full overflow-hidden">
                 <img
-                  src={originalPost.user.img || "assets/icons/17.jpg"}
+                  src={originalPost.user.img || "/assets/icons/17.jpg"}
                   alt="Avatar"
                   className="w-full h-full object-cover"
                 />

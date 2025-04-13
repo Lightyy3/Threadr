@@ -74,7 +74,7 @@ const Share = () => {
       {/* AVATAR */}
       <div className=" ">
         <img
-          src={userImg || "assets/icons/17.jpg"}
+          src={userImg || "/assets/icons/17.jpg"}
           alt="profile"
           className="h-10 w-10 rounded-full"
         />
