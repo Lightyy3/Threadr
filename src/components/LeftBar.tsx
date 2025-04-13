@@ -1,25 +1,13 @@
 import Link from "next/link";
-// import Image from "./Image";
 import { currentUser } from "@clerk/nextjs/server";
 import Logout from "./Logout";
 import Image from "next/image";
-import HomeSvg from "../../public/assets/icons/home.svg";
-import { FiCompass } from "react-icons/fi"; // Import this at the top
+import { Prisma } from "@prisma/client";
+import { FiEdit3 } from "react-icons/fi";
 import { FiBookmark } from "react-icons/fi";
 import { HiOutlineUsers } from "react-icons/hi";
-
-import {
-  FaHome,
-  FaSearch,
-  FaBell,
-  FaComment,
-  FaBookmark,
-  FaBriefcase,
-  FaUsers,
-  FaCrown,
-  FaUser,
-  FaEllipsisH,
-} from "react-icons/fa";
+import { FaBell, FaComment } from "react-icons/fa";
+import { prisma } from "@/prisma";
 
 const menuList = [
   {
@@ -36,12 +24,6 @@ const menuList = [
       />
     ),
   },
-  // {
-  //   id: 2,
-  //   name: "Explore",
-  //   link: "/explore",
-  //   icon: <FiCompass size={24} color="white" />, // Replace Image with icon
-  // },
   {
     id: 3,
     name: "Notification",
@@ -50,9 +32,9 @@ const menuList = [
   },
   {
     id: 4,
-    name: "Messages",
-    link: "/messages",
-    icon: <FaComment />,
+    name: "Edit",
+    link: "/edit",
+    icon: <FiEdit3 />,
   },
   {
     id: 5,
@@ -77,13 +59,24 @@ const menuList = [
     ),
   },
 ];
+
 const LeftBar = async () => {
-  const user = await currentUser();
+  const user = await currentUser(); // Clerk's current user (provides userID)
+
+  if (!user) return null; // If no user, don't render the LeftBar.
+
+  // Fetch the user data from the database using Prisma based on the logged-in user's ID
+  const dbUser = await prisma.user.findUnique({
+    where: { id: user.id }, // Use the Clerk user ID to fetch from your database
+    select: { img: true, username: true }, // Select the fields you need, e.g., imageUrl
+  });
+
+  if (!dbUser) return null; // If user not found in the database, return null
 
   return (
     <nav className="2xl:flex px-6 py-4 flex-row justify-between items-center w-full h-16 bg-[#5A04FF] mt-3">
       {/* Left: Logo */}
-      <Link href="/" className="flex items-center   ">
+      <Link href="/" className="flex items-center">
         <Image
           src="/assets/icons/output.png"
           alt="Logo"
@@ -92,12 +85,6 @@ const LeftBar = async () => {
           style={{ minWidth: "170px", minHeight: "36px" }} // Force minimum dimensions
         />
       </Link>
-      {/* <Link
-        href="/"
-        className="flex items-center whitespace-nowrap bg-transparent border border-white/20 px-4 py-2 rounded-full relative"
-      >
-        <span className="text-sm text-white">Dive into fresh content</span>
-      </Link> */}
 
       {/* Middle: Navigation Menu */}
       <ul className="flex gap-6 justify-center sm:gap-4 md:gap-6 mr-5 ">
@@ -116,29 +103,29 @@ const LeftBar = async () => {
 
       {/* Right: Profile or Sign In */}
       <div className="flex gap-6 items-center bg-transparent border border-white px-4 py-2 rounded-full relative">
-        {user ? (
+        {dbUser ? (
           <>
             <Link
-              href={`/${user.username}`}
+              href={`/${dbUser.username}`}
               className="flex gap-3 items-center"
             >
               <img
-                src={user.imageUrl || "/assets/icons/profile-placeholder.svg"}
+                src={dbUser.img || ""}
                 alt="profile"
                 className="h-10 w-10 rounded-full"
               />
               <div className="hidden md:flex flex-col">
-                <p className="text-white font-semibold">{user.username}</p>
-                <p className="text-white text-sm">@{user.username}</p>
+                <p className="text-white font-semibold">{dbUser.username}</p>
+                <p className="text-white text-sm">@{dbUser.username}</p>
               </div>
             </Link>
 
             <div className="flex items-center gap-2 px-6 ml-5 text-white hover:text-black transition-colors cursor-pointer">
-              <img
+              {/* <img
                 src="/assets/icons/logout.svg"
                 alt="Logout"
                 className="h-5 w-5"
-              />
+              /> */}
               <Logout />
             </div>
           </>

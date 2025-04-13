@@ -121,12 +121,12 @@ const PostInteractions = ({
   };
 
   return (
-    <div className="flex items-center justify-between gap-4 lg:gap-16 my-2 text-white">
+    <div className="flex items-center justify-between gap-8  lg:gap-16 my-2 text-white">
       <div className="flex items-center justify-between flex-1">
         {/* COMMENTS */}
         <Link
           href={`/${username}/status/${postId}`}
-          className="flex items-center gap-2 cursor-pointer group"
+          className="flex items-center gap-2 px-2 cursor-pointer group"
         >
           <FaComment
             size={14}
@@ -139,7 +139,7 @@ const PostInteractions = ({
 
         {/* REPOST */}
         <form action={rePostAction}>
-          <button className="flex items-center gap-2 cursor-pointer group">
+          <button className="flex items-center px-2 gap-2 cursor-pointer group">
             <FaRetweet
               size={14}
               className={`${

@@ -78,7 +78,7 @@ const SavedPostsPage = async () => {
               className="bg-[#3A00B6] rounded-xl overflow-hidden border border-black  transition-all duration-300 h-[500px] flex flex-col"
             >
               <div className="overflow-y-auto px-4 py-3 flex-1">
-                <Post post={savedPost.post} type="status" />
+                <Post post={savedPost.post} type="comment" />
               </div>
             </div>
           ))

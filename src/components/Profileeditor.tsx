@@ -1,169 +1,152 @@
-/* eslint-disable react-hooks/rules-of-hooks */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-"use client"; // Ensure this is only run on the client
+"use client";
 
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
+import Image from "next/image";
 
-// Default avatar component
-const ModernDefaultAvatar = () => (
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    width="100"
-    height="100"
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke="currentColor"
-    strokeWidth="2"
-    strokeLinecap="round"
-    strokeLinejoin="round"
-    className="feather feather-user"
-    aria-hidden="true"
-  >
-    <circle cx="12" cy="8" r="4" />
-    <path d="M4 20c0-4 4-6 8-6s8 2 8 6" />
-  </svg>
-);
+interface ProfileEditorProps {
+  user: any;
+  isCurrentUser: boolean;
+}
 
-const ProfileEditor = ({ user, isCurrentUser }: any) => {
-  const [bio, setBio] = useState(user.bio || "");
-  const [coverImage, setCoverImage] = useState(user.cover || "");
-  const [profileImage, setProfileImage] = useState(user.img || "");
+export default function ProfileEditor({
+  user,
+  isCurrentUser,
+}: ProfileEditorProps) {
+  const [bio, setBio] = useState("");
+  const [imgFile, setImgFile] = useState<File | null>(null);
+  const [coverFile, setCoverFile] = useState<File | null>(null);
+  const [previewImg, setPreviewImg] = useState("");
+  const [previewCover, setPreviewCover] = useState("");
 
-  // State for holding updated user data
-  const [updatedUser, setUpdatedUser] = useState(user);
-
-  // State to track if the component has mounted
-  const [mounted, setMounted] = useState(false);
-
-  // Delay the usage of `useRouter` to ensure it's only called after component mounts (client-side only)
   useEffect(() => {
-    setMounted(true); // Mark the component as mounted
+    const fetchUserData = async () => {
+      const res = await fetch("/api/user");
+      if (res.ok) {
+        const data = await res.json();
+        setBio(data.bio || "");
+        setPreviewImg(data.img || "");
+        setPreviewCover(data.cover || "");
+      } else {
+        console.error("Failed to fetch user data");
+      }
+    };
+
+    fetchUserData();
   }, []);
 
-  // Handle Profile Update logic
-  const handleProfileUpdate = async (updatedData: any) => {
-    try {
-      const response = await fetch("/api/update", {
-        method: "POST", // Use POST instead of PUT (according to your API design)
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(updatedData),
-      });
-
-      if (response.ok) {
-        // Update the user data with the new values if the request was successful
-        const newUser = { ...updatedUser, ...updatedData };
-        setUpdatedUser(newUser); // Update the state with the new user data
-      } else {
-        console.error("Failed to update profile");
-      }
-    } catch (error) {
-      console.error("Error updating profile:", error);
-    }
-  };
-
-  // Handle image selection
-  const handleImageChange = (
+  const handleFileChange = (
     e: React.ChangeEvent<HTMLInputElement>,
-    type: "cover" | "avatar"
+    type: "img" | "cover"
   ) => {
     const file = e.target.files?.[0];
     if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        if (type === "cover") {
-          setCoverImage(reader.result as string); // Update cover image state
-          handleProfileUpdate({ cover: reader.result });
-        } else {
-          setProfileImage(reader.result as string); // Update profile image state
-          handleProfileUpdate({ img: reader.result });
-        }
-      };
-      reader.readAsDataURL(file); // Read file as data URL
+      if (type === "img") {
+        setImgFile(file);
+        setPreviewImg(URL.createObjectURL(file));
+      } else {
+        setCoverFile(file);
+        setPreviewCover(URL.createObjectURL(file));
+      }
     }
   };
 
-  // Prevent the component from rendering until it's mounted
-  if (!mounted) return null;
+  const handleSubmit = async () => {
+    const formData = new FormData();
+    formData.append("bio", bio);
+    if (imgFile) formData.append("img", imgFile);
+    if (coverFile) formData.append("cover", coverFile);
+
+    const res = await fetch("/api/update-profile", {
+      method: "POST",
+      body: formData,
+    });
+
+    if (res.ok) {
+      window.location.reload();
+    } else {
+      alert("Something went wrong!");
+    }
+  };
+
+  if (!isCurrentUser) return null;
 
   return (
-    <div className="relative">
+    <div className="max-w-3xl mx-auto bg-[#1e1e1e] rounded-xl shadow-lg overflow-hidden mb-10">
       {/* COVER */}
-      <div className="w-full aspect-[3/1] relative">
-        <img
-          src={updatedUser.cover || "general/noCover.png"}
-          alt="Cover Image"
-          className="w-full h-full object-cover"
-        />
-        {isCurrentUser && (
-          <button
-            className="absolute top-2 right-4 bg-blue-500 text-white p-2 rounded-md z-10"
-            onClick={() => document.getElementById("coverInput")?.click()} // Trigger the file input click
-          >
-            Change Cover
-          </button>
-        )}
-        <input
-          id="coverInput"
-          type="file"
-          accept="image/*"
-          style={{ display: "none" }}
-          onChange={(e) => handleImageChange(e, "cover")}
-        />
-      </div>
-
-      {/* AVATAR */}
-      <div className="relative w-1/5 aspect-square rounded-full overflow-hidden border-4 border-black bg-gray-300 absolute left-4 -translate-y-1/2 z-10">
-        {updatedUser.img ? (
-          <img
-            src={updatedUser.img}
-            alt="User Avatar"
-            className="w-full h-full object-cover"
+      <div className="relative h-40 bg-gray-800">
+        {previewCover && (
+          <Image
+            src={previewCover}
+            alt="Cover"
+            fill
+            className="object-cover w-full h-full"
           />
-        ) : (
-          <ModernDefaultAvatar />
         )}
-        {isCurrentUser && (
-          <button
-            className="absolute bottom-2 right-4 bg-blue-500 text-white p-2 rounded-md z-10"
-            onClick={() => document.getElementById("avatarInput")?.click()} // Trigger the file input click
-          >
-            Change Avatar
-          </button>
-        )}
-        <input
-          id="avatarInput"
-          type="file"
-          accept="image/*"
-          style={{ display: "none" }}
-          onChange={(e) => handleImageChange(e, "avatar")}
-        />
+        <div className="absolute bottom-2 right-2">
+          <label className="cursor-pointer text-sm bg-white text-black px-3 py-1 rounded hover:bg-gray-200">
+            Change Cover
+            <input
+              type="file"
+              accept="image/*"
+              onChange={(e) => handleFileChange(e, "cover")}
+              className="hidden"
+            />
+          </label>
+        </div>
       </div>
 
-      {/* Editable Bio */}
-      {isCurrentUser ? (
-        <textarea
-          value={bio}
-          onChange={(e) => setBio(e.target.value)}
-          placeholder="Edit your bio"
-          className="w-full p-2 border border-gray-300 rounded-md mt-4"
-        />
-      ) : (
-        <p>{updatedUser.bio}</p>
-      )}
+      {/* PROFILE PIC + FORM */}
+      <div className="p-6 relative pt-16">
+        {/* Profile Picture */}
+        <div className="absolute -top-12 left-6 w-24 h-24 rounded-full border-4 border-[#1e1e1e] overflow-hidden shadow-md">
+          {previewImg && (
+            <Image
+              src={previewImg}
+              alt="Profile"
+              width={96}
+              height={96}
+              className="object-cover w-full h-full"
+            />
+          )}
+        </div>
 
-      {/* Save Bio Button */}
-      {isCurrentUser && (
-        <button
-          onClick={() => handleProfileUpdate({ bio })}
-          className="mt-4 bg-blue-500 text-white p-2 rounded-md"
-        >
-          Save Bio
-        </button>
-      )}
+        <div className="flex justify-end mb-6">
+          <label className="cursor-pointer text-sm bg-white text-black px-3 py-1 rounded hover:bg-gray-200">
+            Change Avatar
+            <input
+              type="file"
+              accept="image/*"
+              onChange={(e) => handleFileChange(e, "img")}
+              className="hidden"
+            />
+          </label>
+        </div>
+
+        {/* Bio */}
+        <div className="mb-6">
+          <label className="block text-white text-sm font-semibold mb-2">
+            Bio
+          </label>
+          <textarea
+            className="w-full p-3 text-sm rounded-lg bg-[#2a2a2e] text-white outline-none border border-transparent focus:border-[#5A04FF]"
+            value={bio}
+            onChange={(e) => setBio(e.target.value)}
+            rows={4}
+            placeholder="Tell people about yourself..."
+          />
+        </div>
+
+        {/* Save Button */}
+        <div className="text-right">
+          <button
+            onClick={handleSubmit}
+            className="bg-[#5A04FF] hover:bg-purple-700 transition text-white px-6 py-2 rounded-full font-semibold"
+          >
+            Save Changes
+          </button>
+        </div>
+      </div>
     </div>
   );
-};
-
-export default ProfileEditor;
+}

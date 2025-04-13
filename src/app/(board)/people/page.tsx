@@ -1,7 +1,7 @@
+/* eslint-disable @next/next/no-img-element */
 import { prisma } from "@/prisma";
 import { auth } from "@clerk/nextjs/server";
 import FollowButton from "@/components/FollowButton";
-import Image from "next/image";
 import Link from "next/link";
 import { RiUserFollowLine } from "react-icons/ri";
 import { HiOutlineLocationMarker } from "react-icons/hi";
@@ -28,10 +28,10 @@ export default async function ProfilePage() {
     <div className="max-w-7xl mx-auto px-4 py-8 text-white">
       <header className="flex justify-between items-center mb-12">
         <div>
-          <h1 className="text-4xl font-extrabold text-transparent bg-gradient-to-r from-[#5A04FF] to-purple-500 bg-clip-text">
+          <h1 className="text-4xl font-extrabold text-white bg-clip-text">
             Explore People
           </h1>
-          <p className="text-gray-400 mt-2 text-lg">
+          <p className="text-white mt-2 text-lg">
             Discover interesting profiles to follow
           </p>
         </div>
@@ -46,21 +46,20 @@ export default async function ProfilePage() {
           return (
             <div
               key={user.id}
-              className="bg-[#1e1e1e]  rounded-xl overflow-hidden border border-[#2a2a2e] hover:border-[#5A04FF] transition-all duration-300 hover:scale-105 hover:shadow-lg"
+              className="bg-[#1e1e1e] rounded-xl overflow-hidden border border-[#2a2a2e] hover:border-[#5A04FF] transition-all duration-300 hover:scale-105 hover:shadow-lg"
             >
               {/* Cover Image */}
               <div className="h-32 bg-gradient-to-r from-[#5A04FF] to-purple-500 opacity-30"></div>
 
               <div className="p-6">
-                <div className="flex justify-between items-center">
+                <div className="flex flex-col justify-between items-center">
                   {/* Avatar */}
                   <div className="w-20 h-20 rounded-full overflow-hidden border-4 border-[#1e1e1e] -mt-12">
-                    <Image
-                      src={user.img || "/general/noAvatar.png"}
-                      alt={user.displayName || "User"}
-                      width={80}
-                      height={80}
-                      className="object-cover"
+                    {/* Avatar Image */}
+                    <img
+                      src={user.img || "assets/icons/17.jpg"}
+                      alt="Avatar"
+                      className="w-full h-full object-cover" // Ensures the image covers the circle
                     />
                   </div>
 
@@ -79,17 +78,17 @@ export default async function ProfilePage() {
                       {user.displayName}
                     </h2>
 
-                    <p className="text-sm text-gray-400">@{user.username}</p>
+                    <p className="text-sm text-white">@{user.username}</p>
                   </Link>
                 </div>
 
                 {/* Bio */}
-                <p className="mt-4 text-sm text-gray-300 line-clamp-3">
+                <p className="mt-4 text-sm text-white line-clamp-3">
                   {user.bio || "No bio available"}
                 </p>
 
                 {/* Stats */}
-                <div className="mt-6 flex flex-wrap gap-6 text-sm text-gray-400">
+                <div className="mt-6 flex flex-wrap gap-6 text-sm text-white">
                   <div className="flex flex-col items-center gap-2">
                     <RiUserFollowLine size={18} />
                     <span>{user.followers.length} followers</span>

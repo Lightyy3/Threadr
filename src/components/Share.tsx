@@ -1,22 +1,23 @@
+/* eslint-disable @next/next/no-img-element */
 "use client";
 
-import React, { useActionState, useEffect, useRef, useState } from "react";
-import Image from "./Image";
-import NextImage from "next/image";
-import ImageEditor from "./ImageEditor";
-import { useUser } from "@clerk/nextjs";
-import { addPost } from "@/action";
+import React, { useState, useEffect, useRef } from "react";
 import {
   FaImage,
   FaPoll,
   FaRegSmile,
   FaMapMarkerAlt,
   FaClock,
-  FaRegGrinAlt,
-} from "react-icons/fa"; // React icons for the media buttons
-import { GiGuitar, GiVideoCamera } from "react-icons/gi"; // Additional icons
+} from "react-icons/fa";
+import { useActionState } from "react";
+import { useUser } from "@clerk/nextjs";
+import NextImage from "next/image";
+import { addPost } from "@/action";
+import ImageEditor from "./ImageEditor";
 
 const Share = () => {
+  const { user } = useUser();
+  const [userImg, setUserImg] = useState<string | null>(null);
   const [media, setMedia] = useState<File | null>(null);
   const [isEditorOpen, setIsEditorOpen] = useState(false);
   const [settings, setSettings] = useState<{
@@ -26,16 +27,6 @@ const Share = () => {
     type: "original",
     sensitive: false,
   });
-
-  const handleMediaChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files && e.target.files[0]) {
-      setMedia(e.target.files[0]);
-    }
-  };
-
-  const previewURL = media ? URL.createObjectURL(media) : null;
-
-  const { user } = useUser();
 
   const [state, formAction, isPending] = useActionState(addPost, {
     success: false,
@@ -52,17 +43,43 @@ const Share = () => {
     }
   }, [state]);
 
+  useEffect(() => {
+    const fetchUserImg = async () => {
+      if (user?.id) {
+        try {
+          const response = await fetch(`/api/getUserImage?userId=${user.id}`);
+          const data = await response.json();
+          if (data.img) {
+            setUserImg(data.img);
+          }
+        } catch (error) {
+          console.error("Error fetching user image:", error);
+        }
+      }
+    };
+
+    fetchUserImg();
+  }, [user]);
+
+  const handleMediaChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files[0]) {
+      setMedia(e.target.files[0]);
+    }
+  };
+
+  const previewURL = media ? URL.createObjectURL(media) : null;
+
   return (
-    <form
-      ref={formRef}
-      className="p-4 flex gap-4"
-      // action={(formData) => shareAction(formData, settings)}
-      action={formAction}
-    >
+    <form ref={formRef} className="p-4 flex gap-4" action={formAction}>
       {/* AVATAR */}
-      <div className="relative w-10 h-10 rounded-full overflow-hidden">
-        <Image src={user?.imageUrl} alt="" w={100} h={100} tr={true} />
+      <div className=" ">
+        <img
+          src={userImg || ""}
+          alt="profile"
+          className="h-10 w-10 rounded-full"
+        />
       </div>
+
       {/* OTHERS */}
       <div className="flex-1 flex flex-col gap-4">
         <input
@@ -85,12 +102,13 @@ const Share = () => {
           placeholder="What is happening?!"
           className="bg-transparent outline-none placeholder:text-white text-xl"
         />
+
         {/* PREVIEW IMAGE */}
         {media?.type.includes("image") && previewURL && (
           <div className="relative rounded-xl overflow-hidden">
             <NextImage
               src={previewURL}
-              alt=""
+              alt="Preview"
               width={600}
               height={600}
               className={`w-full ${
@@ -115,6 +133,7 @@ const Share = () => {
             </div>
           </div>
         )}
+
         {media?.type.includes("video") && previewURL && (
           <div className="relative">
             <video src={previewURL} controls />
@@ -126,6 +145,7 @@ const Share = () => {
             </div>
           </div>
         )}
+
         {isEditorOpen && previewURL && (
           <ImageEditor
             onClose={() => setIsEditorOpen(false)}
@@ -134,6 +154,7 @@ const Share = () => {
             setSettings={setSettings}
           />
         )}
+
         <div className="flex items-center justify-between gap-4 flex-wrap">
           <div className="flex gap-4 flex-wrap border border-white p-2 rounded-full">
             <input
@@ -147,18 +168,19 @@ const Share = () => {
             <label htmlFor="file">
               <FaImage className="cursor-pointer text-white" size={20} />
             </label>
-            {/* <GiGiphy className="cursor-pointer text-white" size={20} /> */}
             <FaPoll className="cursor-pointer text-white" size={20} />
             <FaRegSmile className="cursor-pointer text-white" size={20} />
             <FaClock className="cursor-pointer text-white" size={20} />
             <FaMapMarkerAlt className="cursor-pointer text-white" size={20} />
           </div>
+
           <button
             className="bg-white text-black font-bold rounded-full py-2 px-4 disabled:cursor-not-allowed"
             disabled={isPending}
           >
             {isPending ? "Posting" : "Post"}
           </button>
+
           {state.error && (
             <span className="text-red-300 p-4">Something went wrong!</span>
           )}

@@ -31,12 +31,10 @@ const Recommendations = async () => {
           {/* IMAGE AND USER INFO */}
           <div className="flex items-center gap-2">
             <div className="relative rounded-full overflow-hidden w-10 h-10">
-              <Image
-                path={person.img || "general/noAvatar.png"}
-                alt={person.username}
-                w={100}
-                h={100}
-                tr={true}
+              <img
+                src={"assets/icons/17.jpg"}
+                alt="Avatar"
+                className="w-full h-full object-cover"
               />
             </div>
             <div>

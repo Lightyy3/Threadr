@@ -7,6 +7,9 @@ import QueryProvider from "@/providers/QueryProvider";
 export const metadata: Metadata = {
   title: "Threadr",
   description: "Next.js social media application project",
+  icons: {
+    icon: "/favicon.ico", // Add your path here
+  },
 };
 
 export default function AppLayout({

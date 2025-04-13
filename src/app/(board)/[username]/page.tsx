@@ -1,14 +1,12 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import ProfileEditor from "../../../components/Profileeditor"; // Import the new ProfileEditor component
 import Feed from "@/components/Feed";
 import FollowButton from "@/components/FollowButton";
-import Image from "@/components/Image";
 import { prisma } from "@/prisma";
 import { auth } from "@clerk/nextjs/server";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { IoIosArrowBack } from "react-icons/io"; // Importing the modern back arrow icon
-import { FaEllipsisH, FaSearch, FaComment } from "react-icons/fa"; // Importing relevant icons
+import { IoIosArrowBack } from "react-icons/io";
+import { FaEdit } from "react-icons/fa"; // for edit icon if needed
 
 const UserPage = async ({
   params,
@@ -16,11 +14,10 @@ const UserPage = async ({
   params: Promise<{ username: string }>;
 }) => {
   const { userId } = await auth();
-
   const username = (await params).username;
 
   const user = await prisma.user.findUnique({
-    where: { username: username },
+    where: { username },
     include: {
       _count: { select: { followers: true, followings: true } },
       followings: userId ? { where: { followerId: userId } } : undefined,
@@ -28,67 +25,100 @@ const UserPage = async ({
   });
 
   if (!user) return notFound();
-
   const isCurrentUser = userId === user.id;
 
   return (
-    <div>
-      {/* PROFILE TITLE */}
+    <div className="text-white">
+      {/* Top Bar */}
       <div className="flex items-center gap-4 sticky top-0 backdrop-blur-md p-4 z-10">
         <Link href="/" className="flex items-center gap-2">
           <IoIosArrowBack size={24} color="white" />
           <p className="font-bold text-lg">Back</p>
         </Link>
-        <h1 className="font-bold text-lg text-white">{user.displayName}</h1>
+        <h1 className="font-bold text-lg">{user.displayName}</h1>
       </div>
 
-      {/* INFO */}
-      <div>
-        {/* PROFILE EDITOR */}
-        <ProfileEditor user={user} isCurrentUser={isCurrentUser} />
+      {/* Cover Photo */}
+      <div className="relative h-52 bg-gray-800">
+        {user.cover && (
+          <img
+            src={user.cover}
+            alt="Cover"
+            className="object-cover w-full h-full"
+          />
+        )}
 
-        {/* USER DETAILS */}
-        <div className="p-4 flex flex-col gap-2">
-          <div className="">
+        {/* Profile Picture */}
+        <div className="absolute -bottom-16 left-6 w-32 h-32 rounded-full overflow-hidden border-4 border-black shadow-lg bg-gray-900">
+          <img
+            src={user.img || "/assets/icons/profile-placeholder.svg"}
+            alt="Profile"
+            className="object-cover w-full h-full"
+          />
+        </div>
+      </div>
+
+      {/* Main Info */}
+      <div className="mt-20 px-6">
+        <div className="flex justify-between items-center">
+          <div>
             <h1 className="text-2xl font-bold">{user.displayName}</h1>
-            <span className="text-white text-sm">@{user.username}</span>
+            <p className="text-sm text-white">@{user.username}</p>
           </div>
-
-          <div className="flex gap-4 text-white text-[15px]">
-            <div className="flex items-center gap-2">
-              <span>
-                Date Joined:{" "}
-                {new Date(user.createdAt.toString()).toLocaleDateString(
-                  "en-US",
-                  { month: "long", year: "numeric" }
-                )}
-              </span>
-            </div>
-          </div>
-
-          {/* Display Bio if available */}
-          {user.bio && (
-            <div className="mt-4 text-white text-[15px]">
-              <h2 className="font-semibold">Bio:</h2>
-              <p>{user.bio}</p>
-            </div>
+          {isCurrentUser ? (
+            <Link
+              href="/edit"
+              className="flex items-center gap-2 text-sm text-white border border-white px-4 py-2 rounded-full hover:bg-white hover:text-black transition"
+            >
+              <FaEdit size={16} />
+              Edit
+            </Link>
+          ) : (
+            <FollowButton
+              userId={user.id}
+              isFollowed={user.followings.some(
+                (f) => f.followingId === user.id
+              )}
+              username={user.username}
+            />
           )}
+        </div>
 
-          <div className="flex gap-4">
-            <div className="flex items-center gap-2">
-              <span className="font-bold">{user._count.followers}</span>
-              <span className="text-white text-[15px]">Followers</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <span className="font-bold">{user._count.followings}</span>
-              <span className="text-white text-[15px]">Followings</span>
-            </div>
+        {/* Bio */}
+        {user.bio && (
+          <div className="mt-4 text-sm text-white">
+            <p>Bio: {user.bio}</p>
+          </div>
+        )}
+
+        {/* Stats */}
+        <div className="mt-4 flex gap-6 text-sm text-white">
+          <div>
+            <span className="font-bold text-white">
+              {user._count.followers}
+            </span>{" "}
+            Followers
+          </div>
+          <div>
+            <span className="font-bold text-white">
+              {user._count.followings}
+            </span>{" "}
+            Following
+          </div>
+          <div>
+            Joined{" "}
+            {new Date(user.createdAt).toLocaleDateString("en-US", {
+              month: "long",
+              year: "numeric",
+            })}
           </div>
         </div>
       </div>
 
-      {/* FEED */}
-      <Feed userProfileId={user.id} />
+      {/* Feed */}
+      <div className="mt-8 px-6">
+        <Feed userProfileId={user.id} />
+      </div>
     </div>
   );
 };
