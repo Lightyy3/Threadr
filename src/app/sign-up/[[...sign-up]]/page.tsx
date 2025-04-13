@@ -2,6 +2,7 @@
 
 import * as Clerk from "@clerk/elements/common";
 import * as SignUp from "@clerk/elements/sign-up";
+import Image from "next/image";
 
 const SignUpPage = () => {
   return (
@@ -14,7 +15,7 @@ const SignUpPage = () => {
       }}
     >
       <div className="hidden lg:flex w-1/2 items-center justify-center">
-        <img
+        <Image
           src="/assets/icons/output.png"
           alt="Logo"
           width={348}

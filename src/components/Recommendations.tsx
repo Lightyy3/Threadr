@@ -2,6 +2,7 @@ import Link from "next/link";
 
 import { prisma } from "@/prisma";
 import { auth } from "@clerk/nextjs/server";
+import Image from "next/image";
 
 const Recommendations = async () => {
   const { userId } = await auth();
@@ -31,9 +32,11 @@ const Recommendations = async () => {
           {/* IMAGE AND USER INFO */}
           <div className="flex items-center gap-2">
             <div className="relative rounded-full overflow-hidden w-10 h-10">
-              <img
-                src={"/assets/icons/17.jpg"}
+              <Image
+                src="/assets/icons/17.jpg"
                 alt="Avatar"
+                width={100} // Set your desired width
+                height={100} // Set your desired height
                 className="w-full h-full object-cover"
               />
             </div>

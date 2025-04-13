@@ -3,17 +3,19 @@
 import * as Clerk from "@clerk/elements/common";
 import * as SignIn from "@clerk/elements/sign-in";
 import Link from "next/link";
+import Image from "next/image";
 
 const SignInPage = () => {
   return (
     <div className="h-screen flex items-center justify-between p-8">
       <div className="hidden lg:flex w-1/2 items-center justify-center">
-        <img
+        <Image
           src="/assets/icons/output.png"
           alt="Logo"
           width={348}
           height={80}
           style={{ minWidth: "340px", minHeight: "72px" }}
+          priority // Optional: ensures logo loads quickly
         />
       </div>
       <div className="w-full lg:w-1/2 flex flex-col gap-4">

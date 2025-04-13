@@ -15,7 +15,7 @@ const menuList = [
     name: "Home",
     link: "/",
     icon: (
-      <img
+      <Image
         src="/assets/icons/home2.svg"
         alt="Home Icon"
         width={24}
@@ -109,11 +109,14 @@ const LeftBar = async () => {
               href={`/${dbUser.username}`}
               className="flex gap-3 items-center"
             >
-              <img
-                src={dbUser.img || ""}
+              <Image
+                src={dbUser.img || "/default-profile.jpg"} // fallback if dbUser.img is empty
                 alt="profile"
-                className="h-10 w-10 rounded-full"
+                width={40} // corresponds to h-10
+                height={40} // corresponds to w-10
+                className="rounded-full"
               />
+
               <div className="hidden md:flex flex-col">
                 <p className="text-white font-semibold">{dbUser.username}</p>
                 <p className="text-white text-sm">@{dbUser.username}</p>

@@ -5,6 +5,7 @@ import { auth } from "@clerk/nextjs/server";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { IoIosArrowBack } from "react-icons/io";
+import Image from "next/image";
 import { FaEdit } from "react-icons/fa"; // for edit icon if needed
 
 const UserPage = async ({
@@ -40,18 +41,15 @@ const UserPage = async ({
       {/* Cover Photo */}
       <div className="relative h-52 bg-gray-800">
         {user.cover && (
-          <img
-            src={user.cover}
-            alt="Cover"
-            className="object-cover w-full h-full"
-          />
+          <Image src={user.cover} alt="Cover" fill className="object-cover" />
         )}
 
         {/* Profile Picture */}
         <div className="absolute -bottom-16 left-6 w-32 h-32 rounded-full overflow-hidden border-4 border-black shadow-lg bg-gray-900">
-          <img
+          <Image
             src={user.img || "/assets/icons/profile-placeholder.svg"}
             alt="Profile"
+            fill
             className="object-cover w-full h-full"
           />
         </div>
