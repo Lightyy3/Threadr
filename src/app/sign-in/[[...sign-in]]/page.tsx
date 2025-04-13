@@ -1,4 +1,3 @@
-/* eslint-disable react/jsx-no-undef */
 "use client";
 
 import * as Clerk from "@clerk/elements/common";

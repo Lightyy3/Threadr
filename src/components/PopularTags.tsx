@@ -1,11 +1,10 @@
 import Link from "next/link";
-import { FaHashtag, FaInfoCircle } from "react-icons/fa";
-import { IoMdTrendingUp } from "react-icons/io";
+
 import { HiOutlineFire } from "react-icons/hi"; // Fire icon for trending
 import { HiArrowLongRight } from "react-icons/hi2"; // Modern arrow
 // import Image from "./Image";
 import Image from "next/image";
-import { AiOutlineInfoCircle } from "react-icons/ai";
+
 import { FiInfo } from "react-icons/fi";
 
 const PopularTags = () => {

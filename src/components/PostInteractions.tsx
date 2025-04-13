@@ -5,13 +5,7 @@ import { socket } from "@/socket";
 import { useUser } from "@clerk/nextjs";
 import Link from "next/link";
 import { useOptimistic, useState } from "react";
-import {
-  FaComment,
-  FaRetweet,
-  FaHeart,
-  FaBookmark,
-  FaShareAlt,
-} from "react-icons/fa";
+import { FaComment, FaRetweet, FaHeart, FaBookmark } from "react-icons/fa";
 
 const PostInteractions = ({
   username,

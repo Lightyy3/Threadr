@@ -9,10 +9,7 @@ interface ProfileEditorProps {
   isCurrentUser: boolean;
 }
 
-export default function ProfileEditor({
-  user,
-  isCurrentUser,
-}: ProfileEditorProps) {
+export default function ProfileEditor({ isCurrentUser }: ProfileEditorProps) {
   const [bio, setBio] = useState("");
   const [imgFile, setImgFile] = useState<File | null>(null);
   const [coverFile, setCoverFile] = useState<File | null>(null);

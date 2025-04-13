@@ -2,11 +2,11 @@ import Link from "next/link";
 import { currentUser } from "@clerk/nextjs/server";
 import Logout from "./Logout";
 import Image from "next/image";
-import { Prisma } from "@prisma/client";
+
 import { FiEdit3 } from "react-icons/fi";
 import { FiBookmark } from "react-icons/fi";
 import { HiOutlineUsers } from "react-icons/hi";
-import { FaBell, FaComment } from "react-icons/fa";
+import { FaBell } from "react-icons/fa";
 import { prisma } from "@/prisma";
 
 const menuList = [

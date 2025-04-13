@@ -1,5 +1,5 @@
 import Link from "next/link";
-import Image from "./Image";
+
 import { prisma } from "@/prisma";
 import { auth } from "@clerk/nextjs/server";
 

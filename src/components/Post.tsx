@@ -1,5 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
-import { imagekit } from "@/utils";
+
 import Image from "./Image";
 import PostInfo from "./PostInfo";
 import PostInteractions from "./PostInteractions";

@@ -1,7 +1,7 @@
 "use client";
 
 import { useClerk } from "@clerk/nextjs";
-import Link from "next/link";
+
 import { useState } from "react";
 import { FiLogOut } from "react-icons/fi";
 

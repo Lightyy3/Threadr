@@ -1,4 +1,3 @@
-import Image from "./Image";
 import { FaSearch } from "react-icons/fa"; // Importing the search icon from react-icon
 
 const Search = () => {

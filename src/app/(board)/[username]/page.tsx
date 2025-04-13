@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import Feed from "@/components/Feed";
 import FollowButton from "@/components/FollowButton";
 import { prisma } from "@/prisma";
