@@ -10,7 +10,16 @@ const compat = new FlatCompat({
 });
 
 const eslintConfig = [
+  // Add ignores for Prisma & node_modules
+  {
+    ignores: [
+      "node_modules/**",
+      "src/generated/**", // <- This line tells ESLint to ignore Prisma's generated files
+    ],
+  },
+
   ...compat.extends("next/core-web-vitals", "next/typescript"),
+
   {
     rules: {
       "@typescript-eslint/no-unused-expressions": "off",
