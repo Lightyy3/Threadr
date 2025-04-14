@@ -8,12 +8,12 @@ import { IoIosArrowBack } from "react-icons/io";
 import Image from "next/image";
 import { FaEdit } from "react-icons/fa"; // for edit icon if needed
 
-// interface User {
-//   id: string;
-//   username: string;
-//   followings: { followingId: string }[];
-//   // Add other fields as needed
-// }
+interface User {
+  id: string;
+  username: string;
+  followings: { followingId: string }[];
+  // Add other fields as needed
+}
 const UserPage = async ({
   params,
 }: {
