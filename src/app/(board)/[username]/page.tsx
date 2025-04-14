@@ -1,130 +1,132 @@
-import Feed from "@/components/Feed";
-import FollowButton from "@/components/FollowButton";
-import Image from "@/components/Image";
+// ./src/app/(board)/[username]/page.tsx
+
 import { prisma } from "@/prisma";
 import { auth } from "@clerk/nextjs/server";
+import FollowButton from "@/components/FollowButton";
+import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { IoIosArrowBack } from "react-icons/io";
+import { FaEdit } from "react-icons/fa";
+import Feed from "@/components/Feed";
+import { User } from "@prisma/client"; // Import the User type
 
-const UserPage = async ({
-  params,
-}: {
-  params: Promise<{ username: string }>;
-}) => {
+export interface PageProps {
+  params: {
+    username: string; // Correct type for dynamic route param
+  };
+}
+
+const UserPage = async ({ params }: PageProps) => {
   const { userId } = await auth();
+  const { username } = params;
 
-  const username = (await params).username;
-
-  const user = await prisma.user.findUnique({
-    where: { username: username },
+  // Fetch the user data from Prisma
+  const user:
+    | (User & {
+        _count: { followers: number; followings: number };
+        followings: { followingId: string }[];
+      })
+    | null = await prisma.user.findUnique({
+    where: { username },
     include: {
       _count: { select: { followers: true, followings: true } },
       followings: userId ? { where: { followerId: userId } } : undefined,
     },
   });
 
-  console.log(userId);
   if (!user) return notFound();
+  const isCurrentUser = userId === user.id;
 
   return (
-    <div className="">
-      {/* PROFILE TITLE */}
-      <div className="flex items-center gap-8 sticky top-0 backdrop-blur-md p-4 z-10 bg-[#00000084]">
-        <Link href="/">
-          <Image path="icons/back.svg" alt="back" w={24} h={24} />
+    <div className="text-white">
+      {/* Top Bar */}
+      <div className="flex items-center gap-4 sticky top-0 backdrop-blur-md p-4 z-10">
+        <Link href="/" className="flex items-center gap-2">
+          <IoIosArrowBack size={24} color="white" />
+          <p className="font-bold text-lg">Back</p>
         </Link>
         <h1 className="font-bold text-lg">{user.displayName}</h1>
       </div>
-      {/* INFO */}
-      <div className="">
-        {/* COVER & AVATAR CONTAINER */}
-        <div className="relative w-full">
-          {/* COVER */}
-          <div className="w-full aspect-[3/1] relative">
-            <Image
-              path={user.cover || "general/noCover.png"}
-              alt=""
-              w={600}
-              h={200}
-              tr={true}
-            />
-          </div>
-          {/* AVATAR */}
-          <div className="w-1/5 aspect-square rounded-full overflow-hidden border-4 border-black bg-gray-300 absolute left-4 -translate-y-1/2">
-            <Image
-              path={user.img || "general/noAvatar.png"}
-              alt=""
-              w={100}
-              h={100}
-              tr={true}
-            />
-          </div>
+
+      {/* Cover Photo */}
+      <div className="relative h-52 bg-gray-800">
+        {user.cover && (
+          <Image src={user.cover} alt="Cover" fill className="object-cover" />
+        )}
+
+        {/* Profile Picture */}
+        <div className="absolute -bottom-16 left-6 w-32 h-32 rounded-full overflow-hidden border-4 border-black shadow-lg bg-gray-900">
+          <Image
+            src={user.img || "/assets/icons/profile-placeholder.svg"}
+            alt="Profile"
+            fill
+            className="object-cover w-full h-full"
+          />
         </div>
-        <div className="flex w-full items-center justify-end gap-2 p-2">
-          <div className="w-9 h-9 flex items-center justify-center rounded-full border-[1px] border-gray-500 cursor-pointer">
-            <Image path="icons/more.svg" alt="more" w={20} h={20} />
+      </div>
+
+      {/* Main Info */}
+      <div className="mt-20 px-6">
+        <div className="flex justify-between items-center">
+          <div>
+            <h1 className="text-2xl font-bold">{user.displayName}</h1>
+            <p className="text-sm text-white">@{user.username}</p>
           </div>
-          <div className="w-9 h-9 flex items-center justify-center rounded-full border-[1px] border-gray-500 cursor-pointer">
-            <Image path="icons/explore.svg" alt="more" w={20} h={20} />
-          </div>
-          <div className="w-9 h-9 flex items-center justify-center rounded-full border-[1px] border-gray-500 cursor-pointer">
-            <Image path="icons/message.svg" alt="more" w={20} h={20} />
-          </div>
-          {userId && (
+          {isCurrentUser ? (
+            <Link
+              href="/edit"
+              className="flex items-center gap-2 text-sm text-white border border-white px-4 py-2 rounded-full hover:bg-white hover:text-black transition"
+            >
+              <FaEdit size={16} />
+              Edit
+            </Link>
+          ) : (
             <FollowButton
               userId={user.id}
-              isFollowed={!!user.followings.length}
-              username={username}
+              isFollowed={user.followings.some(
+                (f: { followingId: any }) => f.followingId === user.id
+              )}
+              username={user.username}
             />
           )}
         </div>
-        {/* USER DETAILS */}
-        <div className="p-4 flex flex-col gap-2">
-          {/* USERNAME & HANDLE */}
-          <div className="">
-            <h1 className="text-2xl font-bold">{user.displayName}</h1>
-            <span className="text-textGray text-sm">@{user.username}</span>
+
+        {/* Bio */}
+        {user.bio && (
+          <div className="mt-4 text-sm text-white">
+            <p>Bio: {user.bio}</p>
           </div>
-          {user.bio && <p>{user.bio}</p>}
-          {/* JOB & LOCATION & DATE */}
-          <div className="flex gap-4 text-textGray text-[15px]">
-            {user.location && (
-              <div className="flex items-center gap-2">
-                <Image
-                  path="icons/userLocation.svg"
-                  alt="location"
-                  w={20}
-                  h={20}
-                />
-                <span>{user.location}</span>
-              </div>
-            )}
-            <div className="flex items-center gap-2">
-              <Image path="icons/date.svg" alt="date" w={20} h={20} />
-              <span>
-                Joined{" "}
-                {new Date(user.createdAt.toString()).toLocaleDateString(
-                  "en-US",
-                  { month: "long", year: "numeric" }
-                )}
-              </span>
-            </div>
+        )}
+
+        {/* Stats */}
+        <div className="mt-4 flex gap-6 text-sm text-white">
+          <div>
+            <span className="font-bold text-white">
+              {user._count.followers}
+            </span>{" "}
+            Followers
           </div>
-          {/* FOLLOWINGS & FOLLOWERS */}
-          <div className="flex gap-4">
-            <div className="flex items-center gap-2">
-              <span className="font-bold">{user._count.followers}</span>
-              <span className="text-textGray text-[15px]">Followers</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <span className="font-bold">{user._count.followings}</span>
-              <span className="text-textGray text-[15px]">Followings</span>
-            </div>
+          <div>
+            <span className="font-bold text-white">
+              {user._count.followings}
+            </span>{" "}
+            Following
+          </div>
+          <div>
+            Joined{" "}
+            {new Date(user.createdAt).toLocaleDateString("en-US", {
+              month: "long",
+              year: "numeric",
+            })}
           </div>
         </div>
       </div>
-      {/* FEED */}
-      <Feed userProfileId={user.id} />
+
+      {/* Feed */}
+      <div className="mt-8 px-6">
+        <Feed userProfileId={user.id} />
+      </div>
     </div>
   );
 };

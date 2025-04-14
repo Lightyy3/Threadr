@@ -1,23 +1,17 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
   provider = "prisma-client-js"
   output   = "../src/generated/prisma"
 }
 
 datasource db {
-  provider = "mysql"
+  provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
 model User {
-  id          String   @id
-  email       String   @unique
-  username    String   @unique
+  id          String       @id
+  email       String       @unique
+  username    String       @unique
   displayName String?
   bio         String?
   location    String?
@@ -25,79 +19,59 @@ model User {
   website     String?
   img         String?
   cover       String?
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-
-  // RELATIONS
-  posts Post[]
-
-  likes Like[]
-
-  saves SavedPosts[]
-
-  followers  Follow[] @relation("UserFollowers")
-  followings Follow[] @relation("UserFollowings")
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+  followers   Follow[]     @relation("UserFollowers")
+  followings  Follow[]     @relation("UserFollowings")
+  likes       Like[]
+  posts       Post[]
+  saves       SavedPosts[]
 }
 
 model Post {
-  id          Int      @id @default(autoincrement())
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-  desc        String?  @db.VarChar(255)
-  img         String?
-  imgHeight   Int?
-  video       String?
-  isSensitive Boolean  @default(false)
-
-  // RELATIONS
-  user   User   @relation(fields: [userId], references: [id])
-  userId String
-
-  rePostId Int?
-  rePost   Post?  @relation("RePosts", fields: [rePostId], references: [id])
-  rePosts  Post[] @relation("RePosts")
-
+  id           Int          @id @default(autoincrement())
+  createdAt    DateTime     @default(now())
+  updatedAt    DateTime     @updatedAt
+  desc         String?      @db.VarChar(255)
+  img          String?
+  video        String?
+  isSensitive  Boolean      @default(false)
+  userId       String
+  rePostId     Int?
   parentPostId Int?
-  parentPost   Post?  @relation("PostComments", fields: [parentPostId], references: [id])
-  comments     Post[] @relation("PostComments")
-
-  likes Like[]
-
-  saves SavedPosts[]
+  imgHeight    Int?
+  likes        Like[]
+  parentPost   Post?        @relation("PostComments", fields: [parentPostId], references: [id])
+  comments     Post[]       @relation("PostComments")
+  rePost       Post?        @relation("RePosts", fields: [rePostId], references: [id])
+  rePosts      Post[]       @relation("RePosts")
+  user         User         @relation(fields: [userId], references: [id])
+  saves        SavedPosts[]
 }
 
 model Like {
   id        Int      @id @default(autoincrement())
   createdAt DateTime @default(now())
-
-  // RELATIONS
-  userId String
-  postId Int
-
-  user User @relation(fields: [userId], references: [id])
-  post Post @relation(fields: [postId], references: [id])
+  userId    String
+  postId    Int
+  post      Post     @relation(fields: [postId], references: [id])
+  user      User     @relation(fields: [userId], references: [id])
 }
 
 model SavedPosts {
   id        Int      @id @default(autoincrement())
   createdAt DateTime @default(now())
-
-  // RELATIONS
-  userId String
-  postId Int
-
-  user User @relation(fields: [userId], references: [id])
-  post Post @relation(fields: [postId], references: [id])
+  userId    String
+  postId    Int
+  post      Post     @relation(fields: [postId], references: [id])
+  user      User     @relation(fields: [userId], references: [id])
 }
 
 model Follow {
-  id        Int      @id @default(autoincrement())
-  createdAt DateTime @default(now())
-
-  // RELATIONS
+  id          Int      @id @default(autoincrement())
+  createdAt   DateTime @default(now())
   followerId  String
   followingId String
-
-  follower  User @relation("UserFollowers", fields: [followerId], references: [id])
-  following User @relation("UserFollowings", fields: [followingId], references: [id])
+  follower    User     @relation("UserFollowers", fields: [followerId], references: [id])
+  following   User     @relation("UserFollowings", fields: [followingId], references: [id])
 }

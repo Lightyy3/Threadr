@@ -72,16 +72,21 @@ const SavedPostsPage = async () => {
             You havent saved any posts yet.
           </div>
         ) : (
-          savedPosts.map((savedPost) => (
-            <div
-              key={savedPost.id}
-              className="bg-[#3A00B6] rounded-xl overflow-hidden border border-black  transition-all duration-300 h-[500px] flex flex-col"
-            >
-              <div className="overflow-y-auto px-4 py-3 flex-1">
-                <Post post={savedPost.post} type="comment" />
+          savedPosts.map(
+            (savedPost: {
+              id: React.Key | null | undefined;
+              post: unknown;
+            }) => (
+              <div
+                key={savedPost.id}
+                className="bg-[#3A00B6] rounded-xl overflow-hidden border border-black  transition-all duration-300 h-[500px] flex flex-col"
+              >
+                <div className="overflow-y-auto px-4 py-3 flex-1">
+                  <Post post={savedPost.post} type="comment" />
+                </div>
               </div>
-            </div>
-          ))
+            )
+          )
         )}
       </div>
     </div>
