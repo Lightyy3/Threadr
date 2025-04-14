@@ -10,8 +10,9 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@clerk/elements": "^0.22.9",
-    "@clerk/nextjs": "^6.9.12",
+    "@clerk/clerk-react": "^5.28.0",
+    "@clerk/elements": "^0.22.23",
+    "@clerk/nextjs": "^6.15.0",
     "@prisma/client": "^6.2.1",
     "@tanstack/react-query": "^5.64.2",
     "@types/react-dropzone": "^4.2.2",
@@ -26,7 +27,6 @@
     "react-infinite-scroll-component": "^6.1.0",
     "svix": "^1.45.1",
     "timeago.js": "^4.0.2",
-    "ts-node": "^10.9.2",
     "uuid": "^11.0.5",
     "zod": "^3.24.1"
   },
@@ -39,9 +39,10 @@
     "eslint-config-next": "15.1.0",
     "postcss": "^8",
     "tailwindcss": "^3.4.1",
-    "typescript": "^5"
+    "ts-node": "^10.9.2",
+    "typescript": "^5.8.3"
   },
   "prisma": {
-    "seed": "ts-node --compiler-options {\"module\":\"CommonJS\"} prisma/seed.ts"
+    "seed": "ts-node --project tsconfig.seed.json prisma/seed.ts"
   }
 }
