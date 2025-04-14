@@ -1,3 +1,5 @@
+// ./src/app/user/[username]/page.tsx
+
 import Feed from "@/components/Feed";
 import FollowButton from "@/components/FollowButton";
 import { prisma } from "@/prisma";
@@ -6,26 +8,32 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { IoIosArrowBack } from "react-icons/io";
 import Image from "next/image";
-import { FaEdit } from "react-icons/fa"; // for edit icon if needed
+import { FaEdit } from "react-icons/fa";
+import { Prisma } from "@prisma/client";
 
-interface User {
-  id: string;
-  username: string;
-  followings: { followingId: string }[];
-  // Add other fields as needed
-}
-const UserPage = async ({
-  params,
-}: {
-  params: Promise<{ username: string }>;
-}) => {
+type UserWithFollowData = Prisma.UserGetPayload<{
+  include: {
+    _count: true;
+    followings: true;
+  };
+}>;
+
+const UserPage = async ({ params }: { params: { username: string } }) => {
   const { userId } = await auth();
-  const username = (await params).username;
+  const { username } = params;
 
   const user = await prisma.user.findUnique({
     where: { username },
     include: {
-      _count: { select: { followers: true, followings: true } },
+      _count: {
+        select: {
+          followers: true,
+          followings: true,
+          posts: true,
+          likes: true,
+          saves: true,
+        },
+      },
       followings: userId ? { where: { followerId: userId } } : undefined,
     },
   });
@@ -79,9 +87,7 @@ const UserPage = async ({
           ) : (
             <FollowButton
               userId={user.id}
-              isFollowed={user.followings.some(
-                (f: { followingId: string }) => f.followingId === user.id
-              )}
+              isFollowed={user.followings.some((f) => f.followingId === userId)}
               username={user.username}
             />
           )}
