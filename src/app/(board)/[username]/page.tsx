@@ -74,7 +74,7 @@ const UserPage = async ({
             <FollowButton
               userId={user.id}
               isFollowed={user.followings.some(
-                (f) => f.followingId === user.id
+                (f: { followingId: string }) => f.followingId === user.id
               )}
               username={user.username}
             />
