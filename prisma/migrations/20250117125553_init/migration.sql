@@ -11,6 +11,19 @@ CREATE TABLE "User" (
     "website" VARCHAR(191) NULL,
     "img" VARCHAR(191) NULL,
     "cover" VARCHAR(191) NULL,
+-- CreateTable User
+CREATE TABLE "User" (
+    "id" VARCHAR(191) NOT NULL,
+    "email" VARCHAR(191) NOT NULL,
+    "username" VARCHAR(191) NOT NULL,
+    "displayName" VARCHAR(191) NULL,
+    "name" VARCHAR(191) NULL,
+    "bio" VARCHAR(191) NULL,
+    "location" VARCHAR(191) NULL,
+    "job" VARCHAR(191) NULL,
+    "website" VARCHAR(191) NULL,
+    "img" VARCHAR(191) NULL,
+    "cover" VARCHAR(191) NULL,
 
     CONSTRAINT "User_email_key" UNIQUE("email"),
     CONSTRAINT "User_username_key" UNIQUE("username"),
