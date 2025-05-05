@@ -1,15 +1,45 @@
+/* eslint-disable no-unused-vars */
+/* eslint-disable @typescript-eslint/no-require-imports */
 import type { Config } from "tailwindcss";
-import defaultTheme from "tailwindcss/defaultTheme";
-
-const config: Config = {
-  darkMode: ["class"],
+/** @type {import('tailwindcss').Config} */
+const defaultTheme = require("tailwindcss/defaultTheme");
+export default {
   content: [
     "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
+  ],
+  theme: {
+    extend: {
+      screens: {
+        xsm: "500px",
+        sm: "600px",
+        md: "690px",
+        lg: "988px",
+        xl: "1078px",
+        xxl: "1265px",
+      },
+      colors: {
+        textGray: "#71767b",
+        textGrayLight: "#e7e9ea",
+        borderGray: "#2f3336",
+        inputGray: "#202327",
+        iconBlue: "#1d9bf0",
+        iconGreen: "#00ba7c",
+        iconPink: "#f91880",
+      },
+    },
+  },
+  plugins: [],
+} satisfies Config;
+
+module.exports = {
+  darkMode: ["class"],
+  content: [
     "./pages/**/*.{ts,tsx}",
     "./components/**/*.{ts,tsx}",
     "./app/**/*.{ts,tsx}",
+    "./src/**/*.{ts,tsx}",
   ],
   theme: {
     container: {
@@ -20,23 +50,7 @@ const config: Config = {
       },
     },
     extend: {
-      screens: {
-        xsm: "500px",
-        sm: "600px",
-        md: "690px",
-        lg: "988px",
-        xl: "1078px",
-        xxl: "1265px",
-        xs: "480px",
-      },
       colors: {
-        textGray: "#71767b",
-        textGrayLight: "#e7e9ea",
-        borderGray: "#2f3336",
-        inputGray: "#202327",
-        iconBlue: "#1d9bf0",
-        iconGreen: "#00ba7c",
-        iconPink: "#f91880",
         "primary-500": "#877EFF",
         "primary-600": "#5D5FEF",
         "secondary-500": "#FFB620",
@@ -51,21 +65,24 @@ const config: Config = {
         "light-3": "#7878A3",
         "light-4": "#5C5C7B",
       },
+      screens: {
+        xs: "480px",
+      },
       width: {
-        420: "420px",
-        465: "465px",
+        "420": "420px",
+        "465": "465px",
       },
       fontFamily: {
         inter: ["Inter", "sans-serif"],
       },
       keyframes: {
         "accordion-down": {
-          from: { height: "0" },
+          from: { height: 0 },
           to: { height: "var(--radix-accordion-content-height)" },
         },
         "accordion-up": {
           from: { height: "var(--radix-accordion-content-height)" },
-          to: { height: "0" },
+          to: { height: 0 },
         },
       },
       animation: {
@@ -74,10 +91,5 @@ const config: Config = {
       },
     },
   },
-  plugins: [
-    // Add plugins here if needed
-    // require("tailwindcss-animate")
-  ],
+  // plugins: [require("tailwindcss-animate")],
 };
-
-export default config;

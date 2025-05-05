@@ -1,72 +1,73 @@
 -- CreateTable
 CREATE TABLE "User" (
-    "id" VARCHAR(191) NOT NULL,
-    "email" VARCHAR(191) NOT NULL,
-    "username" VARCHAR(191) NOT NULL,
-    "displayName" VARCHAR(191) NULL,
-    "name" VARCHAR(191) NULL,
-    "bio" VARCHAR(191) NULL,
-    "location" VARCHAR(191) NULL,
-    "job" VARCHAR(191) NULL,
-    "website" VARCHAR(191) NULL,
-    "img" VARCHAR(191) NULL,
-    "cover" VARCHAR(191) NULL,
--- CreateTable User
-CREATE TABLE "User" (
-    "id" VARCHAR(191) NOT NULL,
-    "email" VARCHAR(191) NOT NULL,
-    "username" VARCHAR(191) NOT NULL,
-    "displayName" VARCHAR(191) NULL,
-    "name" VARCHAR(191) NULL,
-    "bio" VARCHAR(191) NULL,
-    "location" VARCHAR(191) NULL,
-    "job" VARCHAR(191) NULL,
-    "website" VARCHAR(191) NULL,
-    "img" VARCHAR(191) NULL,
-    "cover" VARCHAR(191) NULL,
+    "id" TEXT NOT NULL,
+    "email" TEXT NOT NULL,
+    "username" TEXT NOT NULL,
+    "displayName" TEXT,
+    "bio" TEXT,
+    "location" TEXT,
+    "job" TEXT,
+    "website" TEXT,
+    "img" TEXT,
+    "cover" TEXT,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
 
-    CONSTRAINT "User_email_key" UNIQUE("email"),
-    CONSTRAINT "User_username_key" UNIQUE("username"),
-    PRIMARY KEY ("id")
+    CONSTRAINT "User_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
 CREATE TABLE "Post" (
-    "id" SERIAL PRIMARY KEY,
+    "id" SERIAL NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
-    "desc" VARCHAR(255) NULL,
-    "img" VARCHAR(191) NULL,
-    "video" VARCHAR(191) NULL,
+    "desc" TEXT,
+    "img" TEXT,
+    "imgHeight" INTEGER,
+    "video" TEXT,
     "isSensitive" BOOLEAN NOT NULL DEFAULT false,
-    "userId" VARCHAR(191) NOT NULL,
-    "rePostId" INTEGER NULL,
-    "parentPostId" INTEGER NULL
+    "userId" TEXT NOT NULL,
+    "rePostId" INTEGER,
+    "parentPostId" INTEGER,
+
+    CONSTRAINT "Post_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
 CREATE TABLE "Like" (
-    "id" SERIAL PRIMARY KEY,
+    "id" SERIAL NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "userId" VARCHAR(191) NOT NULL,
-    "postId" INTEGER NOT NULL
+    "userId" TEXT NOT NULL,
+    "postId" INTEGER NOT NULL,
+
+    CONSTRAINT "Like_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
 CREATE TABLE "SavedPosts" (
-    "id" SERIAL PRIMARY KEY,
+    "id" SERIAL NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "userId" VARCHAR(191) NOT NULL,
-    "postId" INTEGER NOT NULL
+    "userId" TEXT NOT NULL,
+    "postId" INTEGER NOT NULL,
+
+    CONSTRAINT "SavedPosts_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
 CREATE TABLE "Follow" (
-    "id" SERIAL PRIMARY KEY,
+    "id" SERIAL NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "followerId" VARCHAR(191) NOT NULL,
-    "followingId" VARCHAR(191) NOT NULL
+    "followerId" TEXT NOT NULL,
+    "followingId" TEXT NOT NULL,
+
+    CONSTRAINT "Follow_pkey" PRIMARY KEY ("id")
 );
+
+-- CreateIndex
+CREATE UNIQUE INDEX "User_email_key" ON "User"("email");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "User_username_key" ON "User"("username");
 
 -- AddForeignKey
 ALTER TABLE "Post" ADD CONSTRAINT "Post_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
