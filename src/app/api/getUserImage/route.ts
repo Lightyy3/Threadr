@@ -1,4 +1,5 @@
 // app/api/getUserImage/route.ts
+
 import { prisma } from "@/prisma"; // Import your Prisma instance
 import { NextResponse } from "next/server";
 
@@ -11,14 +12,25 @@ export async function GET(request: Request) {
     return NextResponse.json({ error: "User ID is required" }, { status: 400 });
   }
 
+  // Optional: Check if the userId has a valid format (e.g., it's a string with a specific pattern)
+  if (typeof userId !== "string" || userId.trim() === "") {
+    return NextResponse.json(
+      { error: "Invalid User ID format" },
+      { status: 400 }
+    );
+  }
+
   try {
     const user = await prisma.user.findUnique({
       where: { id: userId },
       select: { img: true }, // Only fetching the image
     });
 
-    if (!user) {
-      return NextResponse.json({ error: "User not found" }, { status: 404 });
+    if (!user || !user.img) {
+      return NextResponse.json(
+        { error: "User image not found" },
+        { status: 404 }
+      );
     }
 
     return NextResponse.json({ img: user.img }); // Send the image back in response

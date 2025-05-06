@@ -63,15 +63,13 @@ const menuList = [
 const LeftBar = async () => {
   const user = await currentUser(); // Clerk's current user (provides userID)
 
-  if (!user) return null; // If no user, don't render the LeftBar.
-
   // Fetch the user data from the database using Prisma based on the logged-in user's ID
-  const dbUser = await prisma.user.findUnique({
-    where: { id: user.id }, // Use the Clerk user ID to fetch from your database
-    select: { img: true, username: true }, // Select the fields you need, e.g., imageUrl
-  });
-
-  if (!dbUser) return null; // If user not found in the database, return null
+  const dbUser = user
+    ? await prisma.user.findUnique({
+        where: { id: user.id }, // Use the Clerk user ID to fetch from your database
+        select: { img: true, username: true }, // Select the fields you need, e.g., imageUrl
+      })
+    : null;
 
   return (
     <nav className="2xl:flex px-6 py-4 flex-row justify-between items-center w-full h-16 bg-[#5A04FF] mt-3">
@@ -87,7 +85,7 @@ const LeftBar = async () => {
       </Link>
 
       {/* Middle: Navigation Menu */}
-      <ul className="flex gap-6 justify-center sm:gap-4 md:gap-6 mr-5 ">
+      <ul className="flex gap-6 justify-center sm:gap-4 md:gap-6 mr-5">
         {menuList.map((item) => (
           <li key={item.id} className="group">
             <Link
@@ -105,6 +103,7 @@ const LeftBar = async () => {
       <div className="flex gap-6 items-center bg-transparent border border-white px-4 py-2 rounded-full relative">
         {dbUser ? (
           <>
+            {/* Display username and profile picture if user is logged in */}
             <Link
               href={`/${dbUser.username}`}
               className="flex gap-3 items-center"
@@ -117,22 +116,20 @@ const LeftBar = async () => {
                 className="rounded-full"
               />
 
+              {/* Show username next to the profile picture */}
               <div className="hidden md:flex flex-col">
                 <p className="text-white font-semibold">{dbUser.username}</p>
                 <p className="text-white text-sm">@{dbUser.username}</p>
               </div>
             </Link>
 
+            {/* Logout button */}
             <div className="flex items-center gap-2 px-6 ml-5 text-white hover:text-black transition-colors cursor-pointer">
-              {/* <img
-                src="/assets/icons/logout.svg"
-                alt="Logout"
-                className="h-5 w-5"
-              /> */}
               <Logout />
             </div>
           </>
         ) : (
+          // If no user is logged in, show "Sign In" button
           <Link
             href="/sign-in"
             className="bg-white text-black rounded-full font-bold py-2 px-6 hover:bg-white/80 transition"
