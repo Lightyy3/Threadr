@@ -3,7 +3,7 @@
 import Image from "./Image";
 import PostInfo from "./PostInfo";
 import PostInteractions from "./PostInteractions";
-import Video from "./Video";
+// import Video from "./Video";
 import Link from "next/link";
 import { Post as PostType } from "@prisma/client";
 import { format } from "timeago.js";
@@ -129,10 +129,10 @@ const Post = ({
           )}
           {originalPost.video && (
             <div className="rounded-lg overflow-hidden">
-              <Video
+              {/* <Video
                 path={originalPost.video}
                 className={originalPost.isSensitive ? "blur-3xl" : ""}
-              />
+              /> */}
             </div>
           )}
           {type === "status" && (

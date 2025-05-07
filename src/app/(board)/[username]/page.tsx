@@ -1,6 +1,4 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-// ./src/app/(board)/[username]/page.tsx
-
 import { prisma } from "@/prisma";
 import { auth } from "@clerk/nextjs/server";
 import FollowButton from "@/components/FollowButton";
@@ -10,19 +8,18 @@ import { notFound } from "next/navigation";
 import { IoIosArrowBack } from "react-icons/io";
 import { FaEdit } from "react-icons/fa";
 import Feed from "@/components/Feed";
-import { User } from "@prisma/client"; // Import the User type
+import { User } from "@prisma/client";
 
 export interface PageProps {
-  params: {
-    username: string; // Correct type for dynamic route param
-  };
+  params: Promise<{
+    username: string;
+  }>;
 }
 
 const UserPage = async ({ params }: PageProps) => {
   const { userId } = await auth();
-  const { username } = params;
+  const { username } = await params; // Await the params promise
 
-  // Fetch the user data from Prisma
   const user:
     | (User & {
         _count: { followers: number; followings: number };

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @next/next/no-img-element */
 import { prisma } from "@/prisma";
 import { auth } from "@clerk/nextjs/server";
@@ -6,13 +7,19 @@ import Link from "next/link";
 import { RiUserFollowLine } from "react-icons/ri";
 import { HiOutlineLocationMarker } from "react-icons/hi";
 import { BsCalendar3 } from "react-icons/bs";
-import {
-  Key,
-  ReactElement,
-  JSXElementConstructor,
-  ReactNode,
-  ReactPortal,
-} from "react";
+
+// Define the type for user data
+type SimplifiedUser = {
+  id: string;
+  img: string | null;
+  username: string;
+  displayName: string;
+  bio?: string;
+  followers: any[];
+  followings: { followingId: string }[];
+  location?: string;
+  createdAt: Date | string;
+};
 
 export default async function ProfilePage() {
   const { userId } = await auth();
@@ -46,79 +53,11 @@ export default async function ProfilePage() {
       </header>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-        {users.map(
-          (user: {
-            followings: any[];
-            id: Key | null | undefined;
-            img: any;
-            username:
-              | string
-              | number
-              | bigint
-              | boolean
-              | ReactElement<unknown, string | JSXElementConstructor<any>>
-              | Iterable<ReactNode>
-              | Promise<
-                  | string
-                  | number
-                  | bigint
-                  | boolean
-                  | ReactPortal
-                  | ReactElement<unknown, string | JSXElementConstructor<any>>
-                  | Iterable<ReactNode>
-                  | null
-                  | undefined
-                >
-              | null
-              | undefined;
-            displayName:
-              | string
-              | number
-              | bigint
-              | boolean
-              | ReactElement<unknown, string | JSXElementConstructor<any>>
-              | Iterable<ReactNode>
-              | ReactPortal
-              | Promise<
-                  | string
-                  | number
-                  | bigint
-                  | boolean
-                  | ReactPortal
-                  | ReactElement<unknown, string | JSXElementConstructor<any>>
-                  | Iterable<ReactNode>
-                  | null
-                  | undefined
-                >
-              | null
-              | undefined;
-            bio: any;
-            followers: string | any[];
-            location:
-              | string
-              | number
-              | bigint
-              | boolean
-              | ReactElement<unknown, string | JSXElementConstructor<any>>
-              | Iterable<ReactNode>
-              | ReactPortal
-              | Promise<
-                  | string
-                  | number
-                  | bigint
-                  | boolean
-                  | ReactPortal
-                  | ReactElement<unknown, string | JSXElementConstructor<any>>
-                  | Iterable<ReactNode>
-                  | null
-                  | undefined
-                >
-              | null
-              | undefined;
-            createdAt: string | number | Date;
-          }) => {
+        {users
+          .filter((user) => typeof user.id === "string") // Filter out invalid users
+          .map((user: any) => {
             const isFollowed = user.followings.some(
-              (f: { followingId: any }) => f.followingId === user.id
+              (f: { followingId: string }) => f.followingId === user.id
             );
             return (
               <div
@@ -142,7 +81,7 @@ export default async function ProfilePage() {
 
                     {/* Follow Button */}
                     <FollowButton
-                      userId={user.id}
+                      userId={user.id} // Ensure this is a string
                       isFollowed={isFollowed}
                       username={user.username}
                     />
@@ -191,8 +130,7 @@ export default async function ProfilePage() {
                 </div>
               </div>
             );
-          }
-        )}
+          })}
       </div>
     </div>
   );
