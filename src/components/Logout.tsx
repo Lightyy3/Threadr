@@ -10,7 +10,7 @@ const Logout = () => {
   const { signOut } = useClerk();
 
   return (
-    <div className="hidden xxl:block relative text-white">
+    <div className=" xxl:block relative text-white">
       <div
         className="cursor-pointer font-semibold flex items-center gap-2 hover:text-gray-300 transition"
         onClick={() => setOpen((prev) => !prev)}

@@ -1,5 +1,9 @@
+/* eslint-disable react/jsx-no-undef */
 import LeftBar from "@/components/LeftBar";
 import RightBar from "@/components/RightBar";
+import BottomBar from "@/components/Bottombar"; // NEW component
+import Link from "next/link";
+import Image from "next/image";
 
 export default function BoardLayout({
   children,
@@ -9,18 +13,39 @@ export default function BoardLayout({
   modal: React.ReactNode;
 }>) {
   return (
-    <div className="bg-[#5A04FF] max-w-screen-md lg:max-w-screen-lg xl:max-w-screen-xl xxl:max-w-screen-xxl mx-auto flex flex-col justify-between">
-      <div className="px-2 xsm:px-4 xxl:px-8 ">
+    <div className="bg-[#5A04FF] w-full max-w-screen-xl mx-auto px-2 sm:px-4 md:px-6 xl:px-8">
+      {/* Top Nav for desktop */}
+      <div className="flex justify-center  lg:hidden">
+        <Link href="/" className="flex items-center">
+          <Image
+            src="/assets/icons/output.png"
+            alt="Logo"
+            width={120} // smaller width
+            height={30} // smaller height
+            style={{ minWidth: "120px", minHeight: "25px" }} // adjusted to match size
+          />
+        </Link>
+      </div>
+      <div className="hidden md:block mb-4">
         <LeftBar />
       </div>
-      <div className="flex mt-8 ml-20">
-        <div className="flex-1 lg:min-w-[600px] border-x-[1px] border-white ">
+
+      {/* Main content area */}
+      <div className="flex flex-col lg:flex-row gap-6">
+        <main className="w-full lg:flex-1 border-t  lg:border-t-0 lg:border-x border-white">
           {children}
           {modal}
-        </div>
-        <div className="hidden lg:flex ml-4 md:ml-8 flex-1 mb-4 translate-y-[-30px]">
+        </main>
+
+        {/* Right sidebar (desktop only) */}
+        <aside className="hidden lg:block lg:w-[300px]">
           <RightBar />
-        </div>
+        </aside>
+      </div>
+
+      {/* Bottom nav for mobile */}
+      <div className="lg:hidden fixed bottom-0 left-0 right-0 z-50">
+        <BottomBar />
       </div>
     </div>
   );

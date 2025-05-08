@@ -52,7 +52,7 @@ export default async function ProfilePage() {
         <div className="relative">{/* Optional search bar */}</div>
       </header>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-10">
         {users
           .filter((user) => typeof user.id === "string") // Filter out invalid users
           .map((user: any) => {
@@ -107,8 +107,8 @@ export default async function ProfilePage() {
                   <div className="mt-6 flex flex-wrap gap-6 text-sm text-white">
                     <div className="flex flex-col items-center gap-2">
                       <RiUserFollowLine size={18} />
-                      <span>{user.followers.length} followers</span>
-                      <span>{user.followings.length} following</span>
+                      <span>{user.followers.length} following</span>
+                      <span>{user.followings.length} followers</span>
                     </div>
                     {user.location && (
                       <div className="flex items-center gap-2">

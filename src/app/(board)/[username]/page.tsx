@@ -101,13 +101,13 @@ const UserPage = async ({ params }: PageProps) => {
         <div className="mt-4 flex gap-6 text-sm text-white">
           <div>
             <span className="font-bold text-white">
-              {user._count.followers}
+              {user._count.followings}
             </span>{" "}
             Followers
           </div>
           <div>
             <span className="font-bold text-white">
-              {user._count.followings}
+              {user._count.followers}
             </span>{" "}
             Following
           </div>

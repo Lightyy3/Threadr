@@ -1,13 +1,12 @@
 import Link from "next/link";
 import { currentUser } from "@clerk/nextjs/server";
-import Logout from "./Logout";
 import Image from "next/image";
 
-import { FiEdit3 } from "react-icons/fi";
-import { FiBookmark } from "react-icons/fi";
+import { FiEdit3, FiBookmark } from "react-icons/fi";
 import { HiOutlineUsers } from "react-icons/hi";
 import { FaBell } from "react-icons/fa";
 import { prisma } from "@/prisma";
+import LogoutWrapper from "./Logoutwrapper";
 
 const menuList = [
   {
@@ -61,30 +60,29 @@ const menuList = [
 ];
 
 const LeftBar = async () => {
-  const user = await currentUser(); // Clerk's current user (provides userID)
+  const user = await currentUser();
 
-  // Fetch the user data from the database using Prisma based on the logged-in user's ID
   const dbUser = user
     ? await prisma.user.findUnique({
-        where: { id: user.id }, // Use the Clerk user ID to fetch from your database
-        select: { img: true, username: true }, // Select the fields you need, e.g., imageUrl
+        where: { id: user.id },
+        select: { img: true, username: true },
       })
     : null;
 
   return (
-    <nav className="2xl:flex px-6 py-4 flex-row justify-between items-center w-full h-16 bg-[#5A04FF] mt-3">
-      {/* Left: Logo */}
+    <nav className="hidden lg:flex px-6 py-4 flex-row justify-between items-center w-full h-16 bg-[#5A04FF] mt-3">
+      {/* Logo */}
       <Link href="/" className="flex items-center">
         <Image
           src="/assets/icons/output.png"
           alt="Logo"
           width={170}
           height={36}
-          style={{ minWidth: "170px", minHeight: "36px" }} // Force minimum dimensions
+          style={{ minWidth: "170px", minHeight: "36px" }}
         />
       </Link>
 
-      {/* Middle: Navigation Menu */}
+      {/* Navigation */}
       <ul className="flex gap-6 justify-center sm:gap-4 md:gap-6 mr-5">
         {menuList.map((item) => (
           <li key={item.id} className="group">
@@ -99,37 +97,31 @@ const LeftBar = async () => {
         ))}
       </ul>
 
-      {/* Right: Profile or Sign In */}
+      {/* Profile */}
       <div className="flex gap-6 items-center bg-transparent border border-white px-4 py-2 rounded-full relative">
         {dbUser ? (
           <>
-            {/* Display username and profile picture if user is logged in */}
             <Link
               href={`/${dbUser.username}`}
               className="flex gap-3 items-center"
             >
               <Image
-                src={dbUser.img || "/default-profile.jpg"} // fallback if dbUser.img is empty
+                src={dbUser.img || "/default-profile.jpg"}
                 alt="profile"
-                width={40} // corresponds to h-10
-                height={40} // corresponds to w-10
+                width={40}
+                height={40}
                 className="rounded-full"
               />
-
-              {/* Show username next to the profile picture */}
-              <div className="hidden md:flex flex-col">
+              <div className="hidden lg:flex flex-col">
                 <p className="text-white font-semibold">{dbUser.username}</p>
                 <p className="text-white text-sm">@{dbUser.username}</p>
               </div>
             </Link>
-
-            {/* Logout button */}
             <div className="flex items-center gap-2 px-6 ml-5 text-white hover:text-black transition-colors cursor-pointer">
-              <Logout />
+              <LogoutWrapper />
             </div>
           </>
         ) : (
-          // If no user is logged in, show "Sign In" button
           <Link
             href="/sign-in"
             className="bg-white text-black rounded-full font-bold py-2 px-6 hover:bg-white/80 transition"
