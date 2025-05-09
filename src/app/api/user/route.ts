@@ -13,6 +13,8 @@ export async function GET() {
       bio: true,
       img: true,
       cover: true,
+      username: true,
+      displayName: true,
     },
   });
 

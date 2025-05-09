@@ -42,13 +42,7 @@ const SavedPostsPage = async () => {
       id: true,
       post: {
         include: {
-          user: {
-            select: {
-              username: true,
-              displayName: true,
-              img: true,
-            },
-          },
+          user: { select: { username: true, displayName: true, img: true } },
           likes: { select: { id: true } },
           rePosts: { select: { id: true } },
           saves: { select: { id: true } },
@@ -62,21 +56,13 @@ const SavedPostsPage = async () => {
           rePost: {
             include: {
               user: {
-                select: {
-                  username: true,
-                  displayName: true,
-                  img: true,
-                },
+                select: { username: true, displayName: true, img: true },
               },
               likes: { select: { id: true } },
               rePosts: { select: { id: true } },
               saves: { select: { id: true } },
               _count: {
-                select: {
-                  likes: true,
-                  rePosts: true,
-                  comments: true,
-                },
+                select: { likes: true, rePosts: true, comments: true },
               },
             },
           },
@@ -89,33 +75,26 @@ const SavedPostsPage = async () => {
   });
 
   return (
-    <div className="max-w-7xl mx-auto px-4 py-8 text-white">
-      <header className="mb-8">
-        <h1 className="text-3xl text-white font-bold">Saved Posts</h1>
-        <p className="text-white mt-1">All your saved posts</p>
-      </header>
+    <div className="max-w-4xl mx-auto px-4 py-6 text-white mb-16">
+      <h1 className="text-2xl font-semibold mb-4">Saved Posts</h1>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        {savedPosts.length === 0 ? (
-          <div className="text-center text-gray-400 col-span-full">
-            You haven't saved any posts yet.
-          </div>
-        ) : (
-          savedPosts.map((savedPost) => (
+      {savedPosts.length === 0 ? (
+        <div className="text-center text-white">No saved posts yet.</div>
+      ) : (
+        <div className="space-y-4">
+          {savedPosts.map((savedPost) => (
             <div
               key={savedPost.id}
-              className="bg-[#3A00B6] rounded-xl overflow-hidden border border-black transition-all duration-300 h-[500px] flex flex-col"
+              className=" rounded-3xl overflow-hidden border border-white shadow-md"
             >
-              <div className="overflow-y-auto px-4 py-3 flex-1">
-                <Post
-                  post={savedPost.post as unknown as PostWithDetails}
-                  type="comment"
-                />
-              </div>
+              <Post
+                post={savedPost.post as unknown as PostWithDetails}
+                type="comment"
+              />
             </div>
-          ))
-        )}
-      </div>
+          ))}
+        </div>
+      )}
     </div>
   );
 };

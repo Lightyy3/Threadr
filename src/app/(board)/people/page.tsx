@@ -52,7 +52,7 @@ export default async function ProfilePage() {
         <div className="relative">{/* Optional search bar */}</div>
       </header>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-10">
+      <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-8 mb-10">
         {users
           .filter((user) => typeof user.id === "string") // Filter out invalid users
           .map((user: any) => {
@@ -62,71 +62,43 @@ export default async function ProfilePage() {
             return (
               <div
                 key={user.id}
-                className="bg-[#1e1e1e] rounded-xl overflow-hidden border border-[#2a2a2e] hover:border-[#5A04FF] transition-all duration-300 hover:scale-105 hover:shadow-lg"
+                className=" rounded-full overflow-hidden border border-white hover:border-[#5A04FF] transition-all duration-300 hover:shadow-md   items-center bg-transparent  p-8 relative"
               >
-                {/* Cover Image */}
-                <div className="h-32 bg-gradient-to-r from-[#5A04FF] to-purple-500 opacity-30"></div>
-
-                <div className="p-6">
-                  <div className="flex flex-col justify-between items-center">
-                    {/* Avatar */}
-                    <div className="w-20 h-20 rounded-full overflow-hidden border-4 border-[#1e1e1e] -mt-12">
-                      {/* Avatar Image */}
-                      <img
-                        src={user.img || "/assets/icons/17.jpg"}
-                        alt="Avatar"
-                        className="w-full h-full object-cover" // Ensures the image covers the circle
-                      />
-                    </div>
-
-                    {/* Follow Button */}
-                    <FollowButton
-                      userId={user.id} // Ensure this is a string
-                      isFollowed={isFollowed}
-                      username={user.username}
+                {/* Avatar + Name Row */}
+                <div className="flex items-center gap-4">
+                  <div className="w-14 h-14 rounded-full overflow-hidden">
+                    <img
+                      src={user.img || "/assets/icons/17.jpg"}
+                      alt="Avatar"
+                      className="w-full h-full object-cover"
                     />
                   </div>
-
-                  {/* User Info */}
-                  <div className="mt-4">
+                  <div>
                     <Link href={`/${user.username}`}>
-                      <h2 className="text-2xl font-bold text-white hover:text-[#5A04FF] transition-colors">
+                      <h2 className="text-lg font-semibold text-white hover:text-[#5A04FF]">
                         {user.displayName}
                       </h2>
-
                       <p className="text-sm text-white">@{user.username}</p>
                     </Link>
                   </div>
+                </div>
 
-                  {/* Bio */}
-                  <p className="mt-4 text-sm text-white line-clamp-3">
-                    {user.bio || "No bio available"}
-                  </p>
+                {/* Bio */}
+                <p className="mt-3 text-sm text-white line-clamp-2">
+                  {user.bio || "No bio available"}
+                </p>
 
-                  {/* Stats */}
-                  <div className="mt-6 flex flex-wrap gap-6 text-sm text-white">
-                    <div className="flex flex-col items-center gap-2">
-                      <RiUserFollowLine size={18} />
-                      <span>{user.followers.length} following</span>
-                      <span>{user.followings.length} followers</span>
-                    </div>
-                    {user.location && (
-                      <div className="flex items-center gap-2">
-                        <HiOutlineLocationMarker size={18} />
-                        <span>{user.location}</span>
-                      </div>
-                    )}
-                    <div className="flex items-center gap-2">
-                      <BsCalendar3 size={16} />
-                      <span>
-                        Joined{" "}
-                        {new Date(user.createdAt).toLocaleDateString("en-US", {
-                          year: "numeric",
-                          month: "long",
-                        })}
-                      </span>
-                    </div>
+                {/* Follow + Stats */}
+                <div className="mt-4 flex items-center justify-between text-xs p-2 text-white">
+                  <div className="flex gap-4 p-1">
+                    <span>{user.followers.length} followers</span>
+                    <span>{user.followings.length} following</span>
                   </div>
+                  <FollowButton
+                    userId={user.id}
+                    isFollowed={isFollowed}
+                    username={user.username}
+                  />
                 </div>
               </div>
             );

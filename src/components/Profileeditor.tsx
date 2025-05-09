@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable @typescript-eslint/no-unused-expressions */
 "use client";
 
 import { useEffect, useState } from "react";
@@ -15,6 +16,8 @@ export default function ProfileEditor({ isCurrentUser }: ProfileEditorProps) {
   const [coverFile, setCoverFile] = useState<File | null>(null);
   const [previewImg, setPreviewImg] = useState("");
   const [previewCover, setPreviewCover] = useState("");
+  const [username, setUsername] = useState("");
+  const [displayName, setDisplayName] = useState("");
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -24,11 +27,10 @@ export default function ProfileEditor({ isCurrentUser }: ProfileEditorProps) {
         setBio(data.bio || "");
         setPreviewImg(data.img || "");
         setPreviewCover(data.cover || "");
-      } else {
-        console.error("Failed to fetch user data");
+        setUsername(data.username || ""); // Fetch username
+        setDisplayName(data.displayName || ""); // Fetch display name
       }
     };
-
     fetchUserData();
   }, []);
 
@@ -38,13 +40,10 @@ export default function ProfileEditor({ isCurrentUser }: ProfileEditorProps) {
   ) => {
     const file = e.target.files?.[0];
     if (file) {
-      if (type === "img") {
-        setImgFile(file);
-        setPreviewImg(URL.createObjectURL(file));
-      } else {
-        setCoverFile(file);
-        setPreviewCover(URL.createObjectURL(file));
-      }
+      const previewURL = URL.createObjectURL(file);
+      type === "img"
+        ? (setImgFile(file), setPreviewImg(previewURL))
+        : (setCoverFile(file), setPreviewCover(previewURL));
     }
   };
 
@@ -59,44 +58,35 @@ export default function ProfileEditor({ isCurrentUser }: ProfileEditorProps) {
       body: formData,
     });
 
-    if (res.ok) {
-      window.location.reload();
-    } else {
-      alert("Something went wrong!");
-    }
+    if (res.ok) window.location.reload();
+    else alert("Something went wrong!");
   };
 
   if (!isCurrentUser) return null;
 
   return (
-    <div className="max-w-3xl mx-auto bg-[#1e1e1e] rounded-xl shadow-lg overflow-hidden mb-10">
-      {/* COVER */}
-      <div className="relative h-40 bg-gray-800">
+    <div className="max-w-2xl mx-auto mt-10 border border-white rounded-xl shadow-xl overflow-hidden mb-8">
+      {/* Cover Image */}
+      <div className="relative h-40">
         {previewCover && (
-          <Image
-            src={previewCover}
-            alt="Cover"
-            fill
-            className="object-cover w-full h-full"
-          />
+          <Image src={previewCover} alt="Cover" fill className="object-cover" />
         )}
-        <div className="absolute bottom-2 right-2">
-          <label className="cursor-pointer text-sm bg-white text-black px-3 py-1 rounded hover:bg-gray-200">
-            Change Cover
-            <input
-              type="file"
-              accept="image/*"
-              onChange={(e) => handleFileChange(e, "cover")}
-              className="hidden"
-            />
-          </label>
-        </div>
+        <label className="absolute bottom-3 right-3 text-xs text-white border border-white font-semibold px-3 py-1 rounded-full cursor-pointer shadow hover:opacity-90">
+          Change Cover
+          <input
+            type="file"
+            accept="image/*"
+            onChange={(e) => handleFileChange(e, "cover")}
+            className="hidden"
+          />
+        </label>
       </div>
+      <hr className="border-t border-white my-6" />
 
-      {/* PROFILE PIC + FORM */}
-      <div className="p-6 relative pt-16">
-        {/* Profile Picture */}
-        <div className="absolute -top-12 left-6 w-24 h-24 rounded-full border-4 border-[#1e1e1e] overflow-hidden shadow-md">
+      {/* Avatar & Form */}
+      <div className="relative px-6 pb-8 pt-16 text-white">
+        {/* Avatar */}
+        <div className="absolute -top-12 left-6 w-24 h-24 rounded-full overflow-hidden border-4 border-white shadow-md">
           {previewImg && (
             <Image
               src={previewImg}
@@ -108,8 +98,9 @@ export default function ProfileEditor({ isCurrentUser }: ProfileEditorProps) {
           )}
         </div>
 
-        <div className="flex justify-end mb-6">
-          <label className="cursor-pointer text-sm bg-white text-black px-3 py-1 rounded hover:bg-gray-200">
+        {/* Change Avatar Button */}
+        <div className="flex justify-end mb-4">
+          <label className="text-white border border-white text-sm px-4 py-1 rounded-full cursor-pointer hover:opacity-90">
             Change Avatar
             <input
               type="file"
@@ -120,17 +111,25 @@ export default function ProfileEditor({ isCurrentUser }: ProfileEditorProps) {
           </label>
         </div>
 
-        {/* Bio */}
+        {/* Username and Display Name */}
         <div className="mb-6">
-          <label className="block text-white text-sm font-semibold mb-2">
+          <p className="text-sm text-white">@{username}</p> {/* Username */}
+        </div>
+
+        {/* White Line Between Sections */}
+        <hr className="border-t border-white my-6" />
+
+        {/* Bio Field */}
+        <div className="mb-6">
+          <label className="block text-sm font-semibold text-white mb-2">
             Bio
           </label>
           <textarea
-            className="w-full p-3 text-sm rounded-lg bg-[#2a2a2e] text-white outline-none border border-transparent focus:border-[#5A04FF]"
             value={bio}
             onChange={(e) => setBio(e.target.value)}
-            rows={4}
+            rows={3}
             placeholder="Tell people about yourself..."
+            className="w-full p-3 text-sm rounded-lg border border-gray-300 text-black focus:outline-none focus:ring-2 focus:ring-[#5A04FF] bg-white placeholder:text-gray-400"
           />
         </div>
 
@@ -138,7 +137,7 @@ export default function ProfileEditor({ isCurrentUser }: ProfileEditorProps) {
         <div className="text-right">
           <button
             onClick={handleSubmit}
-            className="bg-[#5A04FF] hover:bg-purple-700 transition text-white px-6 py-2 rounded-full font-semibold"
+            className="text-white border border-white px-6 py-2 rounded-full font-semibold hover:bg-opacity-90 transition"
           >
             Save Changes
           </button>

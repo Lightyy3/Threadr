@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 import Link from "next/link";
 import { currentUser } from "@clerk/nextjs/server";
 import Image from "next/image";
@@ -105,12 +106,10 @@ const LeftBar = async () => {
               href={`/${dbUser.username}`}
               className="flex gap-3 items-center"
             >
-              <Image
-                src={dbUser.img || "/default-profile.jpg"}
+              <img
+                src={dbUser.img || "/assets/icons/17.jpg"}
                 alt="profile"
-                width={40}
-                height={40}
-                className="rounded-full"
+                className="h-10 w-10 rounded-full"
               />
               <div className="hidden lg:flex flex-col">
                 <p className="text-white font-semibold">{dbUser.username}</p>

@@ -5,6 +5,8 @@ import BottomBar from "@/components/Bottombar"; // NEW component
 import Link from "next/link";
 import Image from "next/image";
 
+import UserProfileMenuMobile from "@/components/Profilebar";
+
 export default function BoardLayout({
   children,
   modal,
@@ -20,11 +22,14 @@ export default function BoardLayout({
           <Image
             src="/assets/icons/output.png"
             alt="Logo"
-            width={120} // smaller width
-            height={30} // smaller height
+            width={148} // smaller width
+            height={56} // smaller height
             style={{ minWidth: "120px", minHeight: "25px" }} // adjusted to match size
           />
         </Link>
+        <div className="flex items-center gap-2 px-6 ml-5 text-white hover:text-black transition-colors cursor-pointer">
+          <UserProfileMenuMobile />
+        </div>
       </div>
       <div className="hidden md:block mb-4">
         <LeftBar />
