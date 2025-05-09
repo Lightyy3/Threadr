@@ -1,47 +1,50 @@
-import { prisma } from "@/prisma";
 import { auth } from "@clerk/nextjs/server";
 import Feed from "@/components/Feed";
 import AllPostsFeed from "@/components/AllPostsFeed";
 import Share from "@/components/Share";
-import { notFound } from "next/navigation";
+import Link from "next/link";
 
-const Homepage = async ({
-  searchParams,
-}: {
-  searchParams: { feed: string };
-}) => {
-  // Get the authenticated user
+interface HomepageProps {
+  searchParams?: Promise<{
+    feed?: string;
+  }>;
+}
+
+const Homepage = async ({ searchParams }: HomepageProps) => {
   const { userId } = await auth();
 
   if (!userId) {
-    return <div>You need to log in to view your feed</div>;
+    return (
+      <div className="text-white text-center mt-10">
+        You need to log in to view your feed
+      </div>
+    );
   }
 
-  // Determine the feed type from the query parameter
-  const feedType = searchParams.feed || "forYou"; // Default to "forYou" feed if no query param is given
+  const resolvedSearchParams = await searchParams;
+  const feedType =
+    resolvedSearchParams?.feed === "following" ? "following" : "forYou";
 
   return (
-    <div className="homepage">
-      <div className="bg-[#5A04FF] px-4 pt-4 flex justify-evenly text-white font-bold border-b-[1px] border-white">
-        {/* For You Button */}
+    <div className="">
+      {/* Feed Type Tabs */}
+      <div className="bg-[#5A04FF] px-4 pt-4 flex justify-evenly text-white font-bold border-b border-white">
         <LinkButton feedType="forYou" currentFeed={feedType} />
-        {/* Following Button */}
         <LinkButton feedType="following" currentFeed={feedType} />
       </div>
 
+      {/* Share Box */}
       <Share />
 
-      {/* Conditional Feed Rendering */}
-      {feedType === "forYou" ? (
-        <AllPostsFeed /> // Show the "For you" feed (all posts)
-      ) : (
-        <Feed /> // Show the "Following" feed
-      )}
+      {/* Feed Content */}
+      {feedType === "forYou" ? <AllPostsFeed /> : <Feed />}
     </div>
   );
 };
 
-// Link Button Component to handle feed switching
+export default Homepage;
+
+// Reusable tab button using Next.js Link
 const LinkButton = ({
   feedType,
   currentFeed,
@@ -49,14 +52,12 @@ const LinkButton = ({
   feedType: string;
   currentFeed: string;
 }) => (
-  <a
+  <Link
     href={`/?feed=${feedType}`}
-    className={`pb-3 flex items-center ${
+    className={`pb-3 px-2 flex items-center transition ${
       currentFeed === feedType ? "border-b-4 border-white" : ""
     }`}
   >
     {feedType === "forYou" ? "For You" : "Following"}
-  </a>
+  </Link>
 );
-
-export default Homepage;
