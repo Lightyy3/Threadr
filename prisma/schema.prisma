@@ -26,6 +26,8 @@ model User {
   saves       SavedPosts[]
   followers   Follow[] @relation("UserFollowers")
   followings  Follow[] @relation("UserFollowings")
+  sentMessages    Message[] @relation("MessagesSent")
+  receivedMessages Message[] @relation("MessagesReceived")
 }
 
 model Post {
@@ -84,4 +86,15 @@ model Follow {
 
   follower    User     @relation("UserFollowers", fields: [followerId], references: [id])
   following   User     @relation("UserFollowings", fields: [followingId], references: [id])
+}
+
+model Message {
+  id         Int      @id @default(autoincrement())
+  content    String
+  senderId   String
+  receiverId String
+  createdAt  DateTime @default(now())
+
+  sender     User     @relation("MessagesSent", fields: [senderId], references: [id])
+  receiver   User     @relation("MessagesReceived", fields: [receiverId], references: [id])
 }
