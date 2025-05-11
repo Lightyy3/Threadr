@@ -92,7 +92,7 @@ export default async function ProfilePage() {
                     className="flex items-center gap-1 hover:underline"
                   >
                     <HiOutlineChatAlt2 className="text-lg" />
-                    Chat with {user.username}
+                    Chat
                   </Link>
                 </div>
               )}

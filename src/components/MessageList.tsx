@@ -26,7 +26,7 @@ const MessageList = ({ receiverId }: { receiverId: string }) => {
               : "self-end items-end text-white"
           }`}
         >
-          <span className="text-xs text-gray-400 mb-1">
+          <span className="text-xs text-white mb-1">
             {msg.sender?.username || "Unknown"}
           </span>
           <div
