@@ -24,7 +24,7 @@ export default async function ProfilePage() {
   });
 
   return (
-    <div className="max-w-7xl mx-auto px-4 py-8 text-white">
+    <div className="max-w-4xl mx-auto px-4 py-8 text-white ">
       <header className="flex justify-between items-center mb-12">
         <div>
           <h1 className="text-4xl font-extrabold text-white bg-clip-text">

@@ -5,7 +5,7 @@ import Image from "next/image";
 
 import { FiEdit3, FiBookmark } from "react-icons/fi";
 import { HiOutlineUsers } from "react-icons/hi";
-import { FaBell } from "react-icons/fa";
+import { FaComments } from "react-icons/fa"; // Chat icon
 import { prisma } from "@/prisma";
 import LogoutWrapper from "./Logoutwrapper";
 
@@ -24,20 +24,25 @@ const menuList = [
       />
     ),
   },
+  // {
+  //   id: 2,
+  //   name: "Chat", // New menu item for Chat
+  //   link: "/chat", // Link to chat page
+  //   icon: (
+  //     <FaComments
+  //       size={24}
+  //       className="text-white group-hover:text-black transition-colors"
+  //     />
+  //   ), // Chat icon
+  // },
   {
     id: 3,
-    name: "Notification",
-    link: "/notifications",
-    icon: <FaBell />,
-  },
-  {
-    id: 4,
     name: "Edit",
     link: "/edit",
     icon: <FiEdit3 />,
   },
   {
-    id: 5,
+    id: 4,
     name: "Saved",
     link: "/saved",
     icon: (
@@ -48,7 +53,7 @@ const menuList = [
     ),
   },
   {
-    id: 6,
+    id: 5,
     name: "People",
     link: "/people",
     icon: (

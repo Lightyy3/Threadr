@@ -21,12 +21,12 @@ const menuList = [
       />
     ),
   },
-  {
-    id: 3,
-    name: "Notification",
-    link: "/notifications",
-    icon: <FaBell />,
-  },
+  // {
+  //   id: 3,
+  //   name: "Notification",
+  //   link: "/notifications",
+  //   icon: <FaBell />,
+  // },
   {
     id: 4,
     name: "Edit",

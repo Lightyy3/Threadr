@@ -75,7 +75,7 @@ const SavedPostsPage = async () => {
   });
 
   return (
-    <div className="max-w-4xl mx-auto px-4 py-6 text-white mb-16">
+    <div className="max-w-2xl mx-auto py-10 px-4 text-white mb-16">
       <h1 className="text-2xl font-semibold mb-4">Saved Posts</h1>
 
       {savedPosts.length === 0 ? (
