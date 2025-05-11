@@ -71,7 +71,7 @@ const LeftBar = async () => {
     : null;
 
   return (
-    <nav className="hidden lg:flex px-6 py-4 flex-row justify-between items-center w-full h-16 bg-[#5A04FF] mt-3">
+    <nav className="hidden lg:flex px-12 py-4 flex-row justify-between items-center w-full h-16 bg-[#5A04FF] mt-3">
       {/* Logo */}
       <Link href="/" className="flex items-center">
         <Image
@@ -99,12 +99,12 @@ const LeftBar = async () => {
       </ul>
 
       {/* Profile */}
-      <div className="flex gap-6 items-center bg-transparent border border-white px-4 py-2 rounded-full relative">
+      <div className="flex gap-3 items-center bg-transparent border border-white px-4 py-2 rounded-full relative">
         {dbUser ? (
           <>
             <Link
               href={`/${dbUser.username}`}
-              className="flex gap-3 items-center"
+              className="flex items-center gap-[2px]"
             >
               <img
                 src={dbUser.img || "/assets/icons/17.jpg"}
@@ -116,7 +116,7 @@ const LeftBar = async () => {
                 <p className="text-white text-sm">@{dbUser.username}</p>
               </div>
             </Link>
-            <div className="flex items-center gap-2 px-6 ml-5 text-white hover:text-black transition-colors cursor-pointer">
+            <div className="flex items-center gap-8 px-9 ml-9 text-white hover:text-black transition-colors cursor-pointer">
               <LogoutWrapper />
             </div>
           </>

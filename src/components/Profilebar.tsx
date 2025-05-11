@@ -18,7 +18,7 @@ const UserProfileMenuMobile = async () => {
     : null;
 
   return (
-    <div className="flex items-center px-4 text-white gap-6  bg-transparent border border-white  py-2 rounded-full relative">
+    <div className="flex items-center px-8 text-white gap-12 bg-transparent border border-white py-2 rounded-full relative">
       <Link href={`/${dbUser?.username}`} className="flex items-center gap-3">
         <img
           src={dbUser?.img || "/assets/icons/17.jpg"}

@@ -1,7 +1,6 @@
 "use client";
 
 import { useClerk } from "@clerk/nextjs";
-
 import { useState } from "react";
 import { FiLogOut } from "react-icons/fi";
 
@@ -10,13 +9,14 @@ const Logout = () => {
   const { signOut } = useClerk();
 
   return (
-    <div className=" xxl:block relative text-white">
+    <div className="relative text-white">
       <div
         className="cursor-pointer font-semibold flex items-center gap-2 hover:text-gray-300 transition"
         onClick={() => setOpen((prev) => !prev)}
       >
         <FiLogOut size={20} />
-        Logout
+        {/* Hide this text under 450px */}
+        <span className="[@media(max-width:449px)]:hidden">Logout</span>
       </div>
 
       {open && (
