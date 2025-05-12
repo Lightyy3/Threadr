@@ -35,7 +35,7 @@ const AllPostsFeed = async () => {
   });
 
   return (
-    <div>
+    <div className="mb-6">
       {posts.map((post) => (
         <div key={post.id}>
           <Post post={post} />

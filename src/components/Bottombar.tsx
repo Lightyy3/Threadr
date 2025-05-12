@@ -59,7 +59,7 @@ const menuList = [
 
 const BottomBar = () => {
   return (
-    <nav className="fixed bottom-0 left-0 right-0 z-50 flex justify-around items-center bg-[#5A04FF] border-t border-white h-16 px-4 text-white lg:hidden">
+    <nav className="fixed bottom-0 left-0 right-0 mt-8 z-50 flex justify-around items-center bg-[#5A04FF] border-t border-white h-16 px-4 text-white lg:hidden">
       {menuList.map((item) => (
         <Link
           key={item.id}
