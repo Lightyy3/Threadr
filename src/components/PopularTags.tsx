@@ -5,8 +5,6 @@ import axios from "axios";
 import { HiOutlineFire } from "react-icons/hi";
 import { HiArrowLongRight } from "react-icons/hi2";
 
-const api_key = process.env.NEXT_PUBLIC_NEWS_API_KEY;
-
 const PopularTags = () => {
   const [news, setNews] = useState<any[]>([]);
   const [page, setPage] = useState(1);
@@ -14,21 +12,12 @@ const PopularTags = () => {
 
   const fetchNews = async (currentPage: number) => {
     try {
-      const response = await axios.get("https://newsapi.org/v2/top-headlines", {
-        params: {
-          country: "us",
-          apiKey: api_key,
-          page: currentPage,
-          pageSize: 5,
-        },
-      });
-
+      const response = await axios.get(`/api/news?page=${currentPage}`);
       const newArticles = response.data.articles;
       const totalResults = response.data.totalResults;
 
       setNews((prev) => [...prev, ...newArticles]);
 
-      // If all results have been loaded, disable button
       if (currentPage * 5 >= totalResults) {
         setHasMore(false);
       }
@@ -38,7 +27,7 @@ const PopularTags = () => {
   };
 
   useEffect(() => {
-    fetchNews(1); // Fetch first 5 on mount
+    fetchNews(1); // Initial fetch
   }, []);
 
   const handleShowMore = () => {
