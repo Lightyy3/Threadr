@@ -17,6 +17,7 @@
     "@prisma/client": "^6.2.1",
     "@tanstack/react-query": "^5.64.2",
     "@types/react-dropzone": "^4.2.2",
+    "axios": "^1.9.0",
     "cors": "^2.8.5",
     "imagekit": "^6.0.0",
     "imagekitio-next": "^1.0.1",

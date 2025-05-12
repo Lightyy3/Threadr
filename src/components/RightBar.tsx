@@ -5,7 +5,7 @@ import Search from "./Search";
 
 const RightBar = () => {
   return (
-    <div className="bg-[#5A04FF] flex flex-col gap-4 sticky top-0 h-full max-h-screen pb-4">
+    <div className="bg-[#5A04FF] flex flex-col gap-4 h-screen  pb-4">
       <Search />
       <PopularTags />
 
