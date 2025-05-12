@@ -22,9 +22,9 @@ const SignInPage = () => {
       </div>
       <div className="w-full lg:w-1/2 flex flex-col gap-4">
         <h1 className="text-2xl xsm:text-4xl md:text-6xl font-bold">
-          Happening now
+          Trending Now
         </h1>
-        <h1 className="text-2xl ">Join today.</h1>
+        <h1 className="text-2xl ">Get Started today.</h1>
         <SignIn.Root>
           <Clerk.Connection
             name="google"
@@ -64,13 +64,13 @@ const SignInPage = () => {
             <Clerk.Field name="identifier" className="flex flex-col gap-2">
               <Clerk.Input
                 placeholder="john@gmail.com"
-                className="py-2 px-6 rounded-full text-black w-72 placeholder:text-sm"
+                className="w-72 px-4 py-2 text-black rounded-full border border-gray-300 focus:outline-none focus:ring-4 focus:ring-black placeholder:text-gray-400 text-sm"
               />
               <Clerk.FieldError className="text-red-300 text-sm" />
             </Clerk.Field>
             <SignIn.Action
               submit
-              className="mt-2 text-sm underline w-72 text-center text-iconBlue"
+              className="mt-6 bg-iconBlue rounded-full p-2 text-white border border-white  font-bold w-72 text-center"
             >
               Continue
             </SignIn.Action>
@@ -79,21 +79,21 @@ const SignInPage = () => {
             <SignIn.Strategy name="password">
               <Clerk.Field name="password" className="flex flex-col gap-2">
                 <Clerk.Input
-                  placeholder="password"
-                  className="py-2 px-6 rounded-full text-black w-72 placeholder:text-sm"
+                  placeholder="Password"
+                  className="w-72 px-4 py-2 text-black rounded-full border border-gray-300 focus:outline-none focus:ring-4 focus:ring-black placeholder:text-gray-400 text-sm"
                 />
                 <Clerk.FieldError className="text-red-300 text-sm" />
               </Clerk.Field>
               <div className="flex flex-col gap-2">
                 <SignIn.Action
                   submit
-                  className="mt-2 text-sm underline w-72 text-center text-iconBlue"
+                  className="mt-6 bg-iconBlue rounded-full p-2 text-white border border-white  font-bold w-72 text-center"
                 >
                   Continue
                 </SignIn.Action>
                 <SignIn.Action
                   navigate="forgot-password"
-                  className="mt-2 text-sm underline w-72 text-center "
+                  className="mt-6 bg-iconBlue rounded-full p-2 text-white border border-white  font-bold w-72 text-center "
                 >
                   Forgot Password?
                 </SignIn.Action>
@@ -106,7 +106,7 @@ const SignInPage = () => {
 
               <Clerk.Field name="code" className="flex flex-col gap-2">
                 <Clerk.Input
-                  className="py-2 px-6 rounded-full text-black w-72 placeholder:text-sm"
+                  className="w-72 px-4 py-2 text-black rounded-full border border-gray-300 focus:outline-none focus:ring-4 focus:ring-black placeholder:text-gray-400 text-sm"
                   placeholder="Verification Code"
                 />
                 <Clerk.FieldError className="text-red-300 text-sm" />
@@ -114,7 +114,7 @@ const SignInPage = () => {
 
               <SignIn.Action
                 submit
-                className="mt-2 text-sm underline w-72 text-center text-iconBlue"
+                className="bg-iconBlue rounded-full p-2 text-white border border-white  font-bold w-72  mt-6 text-center"
               >
                 Continue
               </SignIn.Action>
@@ -125,29 +125,39 @@ const SignInPage = () => {
             className="flex justify-between w-72 text-sm"
           >
             <SignIn.SupportedStrategy name="reset_password_email_code">
-              <span className="underline text-iconBlue">Reset password</span>
+              <span className=" text-iconBlue bg-iconBlue rounded-full p-2 text-white border border-white  font-bold w-72  mt-6 text-center">
+                Reset password
+              </span>
             </SignIn.SupportedStrategy>
 
-            <SignIn.Action navigate="previous" className="underline">
+            <SignIn.Action
+              navigate="previous"
+              className=" bg-iconBlue rounded-full p-2 text-white border border-white  font-bold    text-center "
+            >
               Go back
             </SignIn.Action>
           </SignIn.Step>
           <SignIn.Step name="reset-password">
-            <h1>Reset your password</h1>
+            {/* <h1 className="mb-6">Reset your password</h1> */}
 
-            <Clerk.Field name="password">
-              <Clerk.Label>New password</Clerk.Label>
-              <Clerk.Input />
+            <Clerk.Field name="password" className="">
+              <Clerk.Label className="mr-4">New password</Clerk.Label>
+              <Clerk.Input className="w-72 px-4 py-2 text-black rounded-full border border-gray-300 focus:outline-none focus:ring-4 focus:ring-black placeholder:text-gray-400 text-sm" />
               <Clerk.FieldError />
             </Clerk.Field>
 
-            <Clerk.Field name="confirmPassword">
-              <Clerk.Label>Confirm password</Clerk.Label>
-              <Clerk.Input />
+            <Clerk.Field name="confirmPassword" className="mt-4">
+              <Clerk.Label className="mr-4">Confirm password</Clerk.Label>
+              <Clerk.Input className="w-72 px-4 py-2 text-black rounded-full border border-gray-300 focus:outline-none focus:ring-4 focus:ring-black placeholder:text-gray-400 text-sm" />
               <Clerk.FieldError />
             </Clerk.Field>
 
-            <SignIn.Action submit>Reset password</SignIn.Action>
+            <SignIn.Action
+              submit
+              className="bg-iconBlue rounded-full p-2 mt-6 text-white border border-white  font-bold    text-center"
+            >
+              Reset password
+            </SignIn.Action>
           </SignIn.Step>
           {/* OR SIGN UP */}
           <div className="w-72 flex items-center gap-4">
@@ -157,15 +167,15 @@ const SignInPage = () => {
           </div>
           <Link
             href="/sign-up"
-            className="bg-iconBlue rounded-full p-2 text-white font-bold w-72 text-center"
+            className="bg-iconBlue rounded-full p-2 text-white border border-white  font-bold w-72 text-center"
           >
             Create Account
           </Link>
           <p className="w-72 text-xs">
-            By signing up, you agree to the{" "}
-            <span className="text-iconBlue">Terms of Service</span> and{" "}
-            <span className="text-iconBlue">Privacy Policy</span>, including{" "}
-            <span className="text-iconBlue">Cookie Use</span>.
+            Signing up means you accept our{" "}
+            <span className="text-iconBlue">Terms of Use</span>,{" "}
+            <span className="text-iconBlue">Privacy Policy</span>, and{" "}
+            <span className="text-iconBlue">Cookie Guidelines</span>.
           </p>
         </SignIn.Root>
       </div>
