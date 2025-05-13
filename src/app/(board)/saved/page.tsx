@@ -76,7 +76,9 @@ const SavedPostsPage = async () => {
 
   return (
     <div className="max-w-2xl mx-auto py-10 px-4 text-white mb-16">
-      <h1 className="text-2xl font-semibold mb-4">Saved Posts</h1>
+      <h1 className="text-xl  mb-6  font-bold  bg-transparent border border-white gap-4 items-center text-white hover:text-black transition  sm:text-base md:text-xl rounded-full px-3 py-2">
+        Saved Posts
+      </h1>
 
       {savedPosts.length === 0 ? (
         <div className="text-center text-white">No saved posts yet.</div>

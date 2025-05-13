@@ -25,9 +25,9 @@ export default async function ProfilePage() {
 
   return (
     <div className="max-w-4xl mx-auto px-4 py-8 text-white ">
-      <header className="flex justify-between items-center mb-12">
+      <header className=" justify-between items-center mb-12">
         <div>
-          <h1 className="text-4xl font-extrabold text-white bg-clip-text">
+          <h1 className="bg-clip-text text-xl py-2 mt-2 flex flex-1 font-bold mb-4 bg-transparent border border-white gap-4 items-center text-white hover:text-black transition  sm:text-base md:text-xl rounded-full px-3">
             Explore People
           </h1>
           <p className="text-white mt-2 text-lg">

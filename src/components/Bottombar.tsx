@@ -4,7 +4,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { FiEdit3, FiBookmark } from "react-icons/fi";
 import { HiOutlineUsers } from "react-icons/hi";
-import { FaBell } from "react-icons/fa";
+import { FaBell, FaComments } from "react-icons/fa";
 
 const menuList = [
   {
@@ -27,6 +27,17 @@ const menuList = [
   //   link: "/notifications",
   //   icon: <FaBell />,
   // },
+  {
+    id: 6,
+    name: "Chatbot",
+    link: "/chatbot",
+    icon: (
+      <FaComments
+        size={24}
+        className="text-white group-hover:text-black transition-colors"
+      />
+    ),
+  },
   {
     id: 4,
     name: "Edit",

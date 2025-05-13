@@ -36,6 +36,17 @@ const menuList = [
   //   ), // Chat icon
   // },
   {
+    id: 6,
+    name: "Chatbot",
+    link: "/chatbot",
+    icon: (
+      <FaComments
+        size={24}
+        className="text-white group-hover:text-black transition-colors"
+      />
+    ),
+  },
+  {
     id: 3,
     name: "Edit",
     link: "/edit",

@@ -23,7 +23,9 @@ export default async function EditPage() {
 
   return (
     <div className="max-w-2xl mx-auto py-10 px-4 text-white">
-      <h1 className="text-3xl font-bold mb-6">Edit Profile</h1>
+      <h1 className="text-xl font-bold   mb-4 bg-transparent border border-white gap-4 items-center text-white hover:text-black transition  sm:text-base md:text-xl rounded-full px-3 py-2">
+        Edit Profile
+      </h1>
       <ProfileEditor user={user} isCurrentUser={isCurrentUser} />
     </div>
   );
