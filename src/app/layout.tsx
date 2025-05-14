@@ -8,7 +8,7 @@ export const metadata: Metadata = {
   title: "Threadr",
   description: "Next.js social media application project",
   icons: {
-    icon: "/favicon.ico", // Add your path here
+    icon: "/favicon.ico",
   },
 };
 
