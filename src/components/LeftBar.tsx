@@ -36,7 +36,7 @@ const menuList = [
   //   ), // Chat icon
   // },
   {
-    id: 6,
+    id: 2,
     name: "Chatbot",
     link: "/chatbot",
     icon: (

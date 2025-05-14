@@ -1,6 +1,7 @@
 "use client";
 import MessageInput from "@/components/MessageInput";
 import MessageList from "@/components/MessageList";
+
 import { useEffect, useState } from "react";
 
 type Params = Promise<{ userId: string }>;

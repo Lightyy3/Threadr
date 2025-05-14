@@ -1,5 +1,6 @@
 "use client";
 import ChatBot from "@/components/ChatBot";
+import TokenManager from "@/components/TokenManager";
 
 export default function ChatBotPage() {
   return (
@@ -8,6 +9,7 @@ export default function ChatBotPage() {
         Chat Assistant
       </h1>
       <ChatBot />
+      <TokenManager />
     </div>
   );
 }

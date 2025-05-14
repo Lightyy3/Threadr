@@ -5,9 +5,8 @@ import { useEffect, useState } from "react";
 export default function TokenManager() {
   const [tokens, setTokens] = useState<number | null>(null);
   const [loading, setLoading] = useState(false);
-
   useEffect(() => {
-    fetch("/api/tokens/tokens")
+    fetch("/api/tokens")
       .then((res) => res.json())
       .then((data) => setTokens(data.tokens))
       .catch(() => setTokens(null));
@@ -36,6 +35,10 @@ export default function TokenManager() {
       <h2 className="text-2xl font-bold mb-4 text-black">Token Balance</h2>
       <p className="text-gray-700 text-lg mb-6">
         {tokens !== null ? `You have ${tokens} tokens` : "Loading..."}
+      </p>
+      <p>
+        You have <span className="font-semibold text-white">{tokens}</span>{" "}
+        tokens left today.
       </p>
       <button
         onClick={handleBuyTokens}
