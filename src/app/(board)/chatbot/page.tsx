@@ -9,7 +9,7 @@ export default function ChatBotPage() {
         Chat Assistant
       </h1>
       <ChatBot />
-      <TokenManager />
+      {/* <TokenManager /> */}
     </div>
   );
 }

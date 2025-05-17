@@ -13,26 +13,30 @@ export default function ChatBot() {
     setLoading(true);
 
     try {
-      const res = await fetch("/api/chat", {
+      const res = await fetch("https://api.cohere.ai/generate", {
         method: "POST",
         headers: {
+          Authorization: `Bearer ${process.env.NEXT_PUBLIC_COHERE_API_KEY}`,
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ prompt: input }),
+        body: JSON.stringify({
+          model: "command-xlarge",
+          prompt: input,
+          max_tokens: 100,
+        }),
       });
 
       const data = await res.json();
 
-      if (res.ok) {
-        setMessages((prev) => [...prev, { user: input, bot: data.text }]);
-      } else {
-        const errorMsg = data.error || "Something went wrong.";
-        setMessages((prev) => [...prev, { user: input, bot: errorMsg }]);
-      }
-    } catch (err) {
       setMessages((prev) => [
         ...prev,
-        { user: input, bot: "Error occurred. Try again later." },
+        { user: input, bot: data.text || "No response from AI" },
+      ]);
+    } catch (error) {
+      console.error("Error during fetch:", error);
+      setMessages((prev) => [
+        ...prev,
+        { user: input, bot: "Something went wrong. Please try again." },
       ]);
     }
 
