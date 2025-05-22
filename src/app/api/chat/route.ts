@@ -1,6 +1,6 @@
 import { auth } from "@clerk/nextjs/server";
 
-import { prisma } from "@/prisma"; // adjust if it's in another folder
+import { prisma } from "@/prisma";
 import { NextResponse } from "next/server";
 import { isBefore, subDays } from "date-fns";
 

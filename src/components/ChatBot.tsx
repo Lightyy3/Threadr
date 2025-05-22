@@ -13,6 +13,22 @@ export default function ChatBot() {
     setLoading(true);
 
     try {
+      // Step 1: Deduct a token before calling the AI
+      const tokenRes = await fetch("/api/tokens/use", { method: "POST" });
+
+      if (tokenRes.status === 403) {
+        alert("You're out of tokens. Please buy more to continue chatting.");
+        setLoading(false);
+        return;
+      }
+
+      if (!tokenRes.ok) {
+        alert("Error checking tokens. Try again later.");
+        setLoading(false);
+        return;
+      }
+
+      // Step 2: Proceed with calling the AI
       const res = await fetch("https://api.cohere.ai/generate", {
         method: "POST",
         headers: {
