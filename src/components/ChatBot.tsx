@@ -62,10 +62,6 @@ export default function ChatBot() {
 
   return (
     <div className="max-w-xlg mx-auto px-4 py-6">
-      {/* <h2 className="text-center text-xl font-semibold text-white mb-4">
-        Chat
-      </h2> */}
-
       <div className="space-y-3 mb-4 text-sm text-white">
         {messages.map((msg, i) => (
           <div key={i} className="space-y-1">
